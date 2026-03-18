@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Albert Mojzeszowicz — Sistema Integrado</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #0D1B3E; --navy-mid: #1a2f5e; --gold: #7A6520;
+  --white: #ffffff; --gray-50: #F8F9FA; --gray-100: #F1F3F5;
+  --gray-200: #E9ECEF; --gray-400: #ADB5BD; --gray-600: #6C757D;
+  --gray-800: #343A40; --gray-900: #212529;
+  --green: #198754; --green-bg: #D1FAE5; --green-text: #065F46;
+  --amber: #856404; --amber-bg: #FFF3CD; --amber-border: #FBBF24;
+  --blue-bg: #DBEAFE; --blue-text: #1E40AF;
+  --purple: #6D28D9; --purple-bg: rgba(109,40,217,0.08);
+  --border: rgba(0,0,0,0.1);
+  --radius: 8px; --radius-lg: 12px;
+  --font: -apple-system, 'Segoe UI', sans-serif;
+}
+body { font-family: var(--font); color: var(--gray-900); background: #fff; }
+
+/*  UTILS  */
+.hidden { display: none !important; }
+.badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+.badge-success { background: var(--green-bg); color: var(--green-text); }
+.badge-warning { background: var(--amber-bg); color: var(--amber); }
+.badge-info { background: var(--blue-bg); color: var(--blue-text); }
+.badge-muted { background: #fff; color: var(--gray-600); border: 0.5px solid var(--border); }
+.btn {
+  padding: 9px 18px; border-radius: var(--radius); font-size: 13px;
+  font-family: var(--font); cursor: pointer; transition: all 0.15s; border: none;
+}
+.btn-navy { background: var(--navy); color: #fff; }
+.btn-navy:hover { background: var(--navy-mid); }
+.btn-outline { background: transparent; border: 0.5px solid var(--border); color: var(--gray-800); }
+.btn-outline:hover { border-color: var(--navy); }
+.btn-gold { background: var(--gold); color: var(--navy); font-weight: 600; }
+.btn-sm { padding: 6px 13px; font-size: 12px; }
+.divider { border: none; border-top: 0.5px solid var(--border); margin: 1.25rem 0; }
+
+
+
+
+
+/*  PUBLIC SITE  */
+.pub-nav {
+  background: var(--navy); padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between; height: 64px;
+}
+.pub-logo { color: #fff; font-size: 15px; font-weight: 600; letter-spacing: 0.01em; }
+.pub-logo span { color: var(--gold); }
+.pub-nav-links { display: flex; gap: 4px; }
+.pub-nav-links a {
+  color: rgba(255,255,255,0.65); font-size: 11px; text-decoration: none;
+  letter-spacing: 0.09em; text-transform: uppercase; cursor: pointer;
+  padding: 6px 12px; border-radius: var(--radius); transition: all 0.15s;
+}
+.pub-nav-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.pub-nav-links a.active { color: #fff; background: rgba(255,255,255,0.12); }
+
+.pub-hero {
+  background: var(--navy); padding: 2.5rem 2rem 2rem; text-align: center;
+  border-bottom: 2px solid var(--gold);
+}
+.pub-hero .tagline { color: rgba(255,255,255,0.4); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.pub-hero h1 { color: #fff; font-size: 28px; font-weight: 600; margin-bottom: 0.5rem; }
+.pub-hero h1 span { color: var(--gold); }
+.pub-hero p { color: rgba(255,255,255,0.6); font-size: 14px; max-width: 500px; margin: 0 auto; line-height: 1.65; }
+
+.pub-sub-nav {
+  display: flex; gap: 0; border-bottom: 0.5px solid var(--border);
+  background: var(--white); padding: 0 2rem; position: sticky; top: 53px; z-index: 100;
+}
+.pub-sub-btn {
+  padding: 13px 18px; font-size: 13px; cursor: pointer; color: var(--gray-600);
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  background: none; border-left: none; border-right: none; border-top: none;
+  font-family: var(--font); transition: all 0.15s;
+}
+.pub-sub-btn:hover { color: var(--gray-900); }
+.pub-sub-btn.active { color: var(--navy); border-bottom-color: var(--navy); font-weight: 500; }
+
+.pub-content { padding: 2rem; max-width: 680px; margin: 0 auto; }
+.pub-section { display: none; }
+.pub-section.active { display: block; }
+.section-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 1rem; }
+
+.form-group { margin-bottom: 1.1rem; }
+.form-group label { display: block; font-size: 13px; color: var(--gray-600); margin-bottom: 5px; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 10px 14px; border: 0.5px solid var(--border);
+  border-radius: var(--radius); background: var(--white); color: var(--gray-900);
+  font-size: 14px; font-family: var(--font); outline: none; transition: border-color 0.15s;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--navy); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.alert-banner {
+  background: var(--amber-bg); border: 0.5px solid var(--amber-border);
+  border-radius: var(--radius); padding: 10px 14px; font-size: 13px;
+  color: #92400E; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px;
+}
+.info-card {
+  background: var(--gray-50); border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem;
+}
+.info-card .ic-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.info-card .ic-sub { font-size: 13px; color: var(--gray-600); line-height: 1.55; }
+
+/*  BLOG  */
+.cat-bar {
+  border-bottom: 0.5px solid var(--border); padding: 0 2rem;
+  display: flex; background: var(--white); position: sticky; top: 116px; z-index: 90;
+}
+.cat-btn {
+  padding: 13px 18px; font-size: 13px; cursor: pointer; color: var(--gray-600);
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  background: none; border-left: none; border-right: none; border-top: none;
+  font-family: var(--font); transition: all 0.15s;
+}
+.cat-btn:hover { color: var(--gray-900); }
+.cat-btn.active { color: var(--navy); border-bottom-color: var(--navy); font-weight: 500; }
+
+.curso-hero {
+  background: var(--navy); padding: 1.75rem 2rem;
+  border-bottom: 2px solid var(--gold);
+}
+.ch-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.ch-title { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.ch-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
+.ch-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.ch-pill { background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); font-size: 12px; padding: 4px 13px; border-radius: 20px; }
+
+.blog-layout { display: grid; grid-template-columns: 1fr 260px; gap: 1.5rem; padding: 1.5rem 2rem; max-width: 960px; }
+.blog-view { display: none; }
+.blog-view.active { display: contents; }
+
+.step-card {
+  display: flex; gap: 1rem; padding: 1rem 1.25rem;
+  border: 0.5px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--white); margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s;
+}
+.step-card:hover { border-color: var(--navy); }
+.step-num {
+  min-width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; flex-shrink: 0; margin-top: 2px;
+}
+.step-body .step-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; line-height: 1.4; }
+.step-body .step-excerpt { font-size: 12px; color: var(--gray-600); line-height: 1.6; }
+.step-body .step-meta { font-size: 11px; color: var(--gray-400); margin-top: 6px; display: flex; gap: 8px; }
+.step-connector { width: 1px; height: 10px; background: var(--border); margin: -2px 0 -2px 14px; }
+
+.post-card {
+  border: 0.5px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1.25rem; background: var(--white); margin-bottom: 1rem;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.post-card:hover { border-color: var(--navy); }
+.post-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.cat-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+.cat-ansiedade { color: var(--navy); background: rgba(13,27,62,0.08); }
+.cat-depressao { color: var(--purple); background: var(--purple-bg); }
+.post-date, .post-read { font-size: 12px; color: var(--gray-400); }
+.post-title { font-size: 16px; font-weight: 500; line-height: 1.4; margin-bottom: 6px; }
+.post-excerpt { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+.post-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); }
+.post-author { font-size: 12px; color: var(--gray-400); }
+.read-more { font-size: 12px; color: var(--navy); font-weight: 500; cursor: pointer; }
+
+.sidebar-widget { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem; }
+.sw-header { padding: 0.85rem 1.25rem; border-bottom: 0.5px solid var(--border); font-size: 13px; font-weight: 500; }
+.sw-body { padding: 1rem 1.25rem; }
+.cta-card { background: var(--navy); border-radius: var(--radius-lg); padding: 1.25rem; text-align: center; margin-bottom: 1rem; }
+.cta-card h3 { color: #fff; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+.cta-card p { color: #6B6763; font-size: 12px; line-height: 1.5; margin-bottom: 1rem; }
+.cta-btn { background: #0D1B3E; color: #fff; border: none; padding: 9px 18px; border-radius: var(--radius); font-size: 12px; font-weight: 600; cursor: pointer; width: 100%; }
+.pli { display: flex; gap: 10px; padding: 9px 0; border-bottom: 0.5px solid var(--border); cursor: pointer; }
+.pli:last-child { border-bottom: none; }
+.pli:hover { opacity: 0.7; }
+.pli-num { font-size: 16px; font-weight: 600; color: rgba(13,27,62,0.15); min-width: 24px; }
+.pli-title { font-size: 12px; font-weight: 500; line-height: 1.4; }
+.pli-cat { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+/*  LOGIN  */
+.login-screen {
+  min-height: calc(100vh - 53px); display: flex; align-items: center;
+  justify-content: center; background: var(--navy); padding: 2rem;
+}
+.login-box {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 2.5rem; width: 360px; border: 0.5px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.login-logo { text-align: center; margin-bottom: 2rem; }
+.login-logo .ll-title { font-size: 18px; font-weight: 600; }
+.login-logo .ll-gold { display: block; width: 32px; height: 2px; background: var(--gold); margin: 10px auto; }
+.login-logo .ll-sub { font-size: 12px; color: var(--gray-600); }
+
+/*  SISTEMA INTERNO  */
+.sys-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 53px); }
+.sys-sidebar { background: var(--navy); padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 3px; }
+.sys-logo { color: #fff; font-size: 13px; font-weight: 600; padding: 0 0.75rem 1.25rem; border-bottom: 0.5px solid rgba(255,255,255,0.1); margin-bottom: 0.75rem; }
+.sys-logo small { display: block; color: rgba(255,255,255,0.35); font-size: 11px; margin-top: 2px; }
+.user-badge { margin-top: auto; padding: 0.75rem; background: rgba(255,255,255,0.07); border-radius: var(--radius); }
+.user-badge .ub-name { color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 500; }
+.user-badge .ub-role { color: rgba(255,255,255,0.4); font-size: 11px; }
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+  border-radius: var(--radius); cursor: pointer; color: rgba(255,255,255,0.6);
+  font-size: 13px; background: transparent; border: none; width: 100%; text-align: left;
+  font-family: var(--font); transition: all 0.15s;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.sidebar-item.active { background: rgba(201,168,76,0.18); color: var(--gold); }
+.sidebar-item .si-ic { width: 16px; text-align: center; font-size: 14px; }
+
+.sys-main { background: #fff; overflow: auto; }
+.sys-topbar {
+  background: var(--white); padding: 0 1.5rem; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 10;
+}
+.sys-topbar h2 { font-size: 16px; font-weight: 500; }
+.sys-content { padding: 1.5rem; display: none; }
+.sys-content.active { display: block; }
+
+.metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+.metric-card { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+.metric-card .mc-val { font-size: 24px; font-weight: 600; line-height: 1; }
+.metric-card .mc-label { font-size: 12px; color: var(--gray-600); margin-top: 6px; }
+.metric-card .mc-delta { font-size: 11px; margin-top: 4px; }
+
+.card-panel { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.panel-header { padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.panel-title { font-size: 14px; font-weight: 500; }
+.panel-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.patient-row {
+  display: flex; align-items: center; padding: 11px 1.25rem;
+  border-bottom: 0.5px solid var(--border); cursor: pointer; transition: background 0.1s; gap: 12px;
+}
+.patient-row:last-child { border-bottom: none; }
+.patient-row:hover { background: var(--gray-50); }
+.avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: #fff;
+  border: 0.5px solid var(--border); display: flex; align-items: center;
+  justify-content: center; font-size: 12px; font-weight: 600; color: var(--gray-600); flex-shrink: 0;
+}
+.pr-info { flex: 1; }
+.pr-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+.pr-meta { font-size: 12px; color: var(--gray-600); }
+.pr-actions { display: flex; gap: 6px; align-items: center; }
+
+.agenda-slot { display: flex; gap: 1rem; padding: 10px 1.25rem; border-bottom: 0.5px solid var(--border); font-size: 13px; align-items: center; }
+.agenda-slot:last-child { border-bottom: none; }
+.agenda-time { color: var(--gray-600); min-width: 48px; font-size: 12px; }
+.ap-name { font-weight: 500; font-size: 13px; }
+.ap-tipo { font-size: 12px; color: var(--gray-600); }
+
+.search-input {
+  padding: 7px 12px; border: 0.5px solid var(--border); border-radius: var(--radius);
+  background: var(--gray-50); color: var(--gray-900); font-size: 13px; width: 200px;
+  outline: none; font-family: var(--font);
+}
+.bar-chart-row { margin-bottom: 12px; }
+.bcr-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+.bcr-bar { height: 6px; background: #fff; border-radius: 4px; }
+.bcr-fill { height: 100%; background: var(--navy); border-radius: 4px; }
+
+/*  PRONTUÁRIO  */
+.pront-tab-bar {
+  display: flex; border-bottom: 0.5px solid var(--border);
+  padding: 0 1.5rem; background: var(--white); position: sticky; top: 56px; z-index: 9;
+}
+.ptab {
+  padding: 13px 16px; font-size: 13px; cursor: pointer; color: var(--gray-600);
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  background: none; border-left: none; border-right: none; border-top: none;
+  font-family: var(--font); transition: all 0.15s;
+}
+.ptab:hover { color: var(--gray-900); }
+.ptab.active { color: var(--navy); border-bottom-color: var(--navy); font-weight: 500; }
+.pront-tab { display: none; padding: 1.5rem; }
+.pront-tab.active { display: block; }
+
+.pront-header-card {
+  background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1.25rem; display: flex; gap: 1.25rem; align-items: center; margin-bottom: 1.25rem;
+}
+.pront-avatar {
+  width: 56px; height: 56px; border-radius: 50%; background: #fff;
+  border: 0.5px solid var(--border); display: flex; align-items: center;
+  justify-content: center; font-size: 18px; font-weight: 600; color: var(--gray-600); flex-shrink: 0;
+}
+.pront-name { font-size: 18px; font-weight: 500; }
+.pront-sub { font-size: 13px; color: var(--gray-600); margin-top: 3px; }
+.pront-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+
+.pront-section { background: var(--white); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem; }
+.pront-sec-head { padding: 0.85rem 1.25rem; border-bottom: 0.5px solid var(--border); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: space-between; }
+.pront-sec-body { padding: 1.25rem; }
+
+.evolucao-item { display: flex; gap: 1rem; padding: 12px 1.25rem; border-bottom: 0.5px solid var(--border); cursor: pointer; transition: background 0.1s; }
+.evolucao-item:last-child { border-bottom: none; }
+.evolucao-item:hover { background: var(--gray-50); }
+.ev-date { font-size: 12px; color: var(--gray-600); min-width: 70px; line-height: 1.5; }
+.ev-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.ev-preview { font-size: 12px; color: var(--gray-600); line-height: 1.55; }
+
+.humor-scale { display: flex; gap: 5px; margin-top: 0.5rem; }
+.humor-dot {
+  width: 30px; height: 30px; border-radius: 50%; border: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+  cursor: pointer; transition: all 0.15s; background: var(--gray-50); color: var(--gray-700);
+}
+.humor-dot:hover { transform: scale(1.1); }
+.humor-dot.selected { border-color: var(--navy); background: var(--navy); color: #fff; }
+
+.med-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+.med-item:last-child { border-bottom: none; }
+.med-name { font-weight: 500; }
+.med-dose { color: var(--gray-600); font-size: 12px; margin-top: 2px; }
+
+.nova-ev-form { background: var(--white); border: 1px solid var(--navy); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; }
+.ne-title { font-size: 14px; font-weight: 500; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; }
+.ne-close { background: none; border: none; color: var(--gray-600); cursor: pointer; font-size: 20px; line-height: 1; }
+
+.dados-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 13px; }
+.dado-item .dado-label { color: var(--gray-600); font-size: 12px; margin-bottom: 3px; }
+.dado-item .dado-val { font-weight: 500; }
+
+/* ═══════════════════════════════
+   LANDING PAGE STYLES
+═══════════════════════════════ */
+.pub-page { display: none; }
+.pub-page.active-pub { display: block; }
+
+/* NAV */
+.pub-nav { background: var(--navy); padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; height: 68px; position: sticky; top: 48px; z-index: 90; }
+.pub-logo { color: #fff; font-size: 15px; font-weight: 600; letter-spacing: 0.01em; }
+.pub-logo span { color: var(--gold); }
+.pub-nav-links { display: flex; gap: 4px; align-items: center; }
+.pub-nav-links a { color: rgba(255,255,255,0.65); font-size: 12px; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; padding: 7px 14px; border-radius: 6px; transition: all 0.15s; }
+.pub-nav-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.nav-cta-btn { background: rgba(255,255,255,0.15) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.3) !important; font-weight: 600 !important; }
+.nav-cta-btn:hover { opacity: 0.88; }
+.nav-cta-active { opacity: 0.75 !important; cursor: default !important; }
+
+/* HERO */
+.landing-hero { background: #FFFFFF; min-height: calc(100vh - 116px); display: flex; align-items: center; padding: 4rem 0; position: relative; overflow: hidden; }
+.landing-hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; background: rgba(13,27,62,0.02); pointer-events: none; }
+.landing-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent); }
+.hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; display: grid; grid-template-columns: 1fr 380px; gap: 5rem; align-items: center; width: 100%; }
+.hero-eyebrow { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #6B5718; margin-bottom: 1.25rem; }
+.hero-name { font-family: 'DM Serif Display', Georgia, serif; font-size: 56px; line-height: 1.05; color: #0D1B3E; margin-bottom: 1.5rem; font-weight: 400; }
+.hero-name span { color: #1E3A6E; font-style: italic; }
+.hero-desc { font-size: 16px; color: #6B6763; line-height: 1.75; margin-bottom: 2rem; max-width: 460px; }
+.hero-actions { display: flex; gap: 12px; margin-bottom: 2.5rem; flex-wrap: wrap; }
+.hero-btn-primary { background: #0D1B3E; color: #fff; border: none; padding: 14px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; letter-spacing: 0.02em; transition: opacity 0.15s; font-family: var(--font); }
+.hero-btn-primary:hover { opacity: 0.88; }
+.hero-btn-secondary { background: #fff; color: #0D1B3E; border: 1px solid rgba(13,27,62,0.2); padding: 13px 26px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: var(--font); transition: all 0.15s; }
+.hero-btn-secondary:hover { color: #0D1B3E; border-color: rgba(13,27,62,0.5); background: #F4F3F0; }
+.hero-badges { display: flex; align-items: center; gap: 1.5rem; }
+.hero-badge { text-align: center; }
+.hb-val { display: block; font-size: 18px; font-weight: 600; color: #0D1B3E; line-height: 1; }
+.hb-label { display: block; font-size: 11px; color: #A09C98; margin-top: 4px; }
+.hero-badge-div { width: 1px; height: 32px; background: rgba(0,0,0,0.1); }
+
+/* HERO CARD */
+.hero-card-float { background: #ffffff; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 1.75rem; backdrop-filter: blur(10px); }
+.hcf-header { display: flex; gap: 12px; align-items: center; margin-bottom: 1.25rem; }
+.hcf-avatar { width: 48px; height: 48px; border-radius: 50%; background: #F4F3F0; border: 0.5px solid rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: #0D1B3E; flex-shrink: 0; }
+.hcf-name { font-size: 14px; font-weight: 500; color: #0D1B3E; }
+.hcf-role { font-size: 12px; color: #A09C98; margin-top: 2px; }
+.hcf-divider { height: 1px; background: rgba(0,0,0,0.08); margin: 1rem 0; }
+.hcf-items { display: flex; flex-direction: column; gap: 10px; }
+.hcf-item { font-size: 13px; color: #6B6763; display: flex; align-items: center; gap: 10px; }
+.hcf-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.hcf-dot-green { background: #34D399; box-shadow: 0 0 8px rgba(52,211,153,0.5); }
+.hcf-dot-blue { background: #60A5FA; }
+.hcf-dot-gold { background: #8B7A30; }
+.hcf-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.hcf-tags span { background: #F4F3F0; border: 0.5px solid rgba(0,0,0,0.08); color: #0D1B3E; font-size: 11px; padding: 4px 12px; border-radius: 20px; }
+
+/* SECTIONS */
+.section-container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+.section-label-gold { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6B5718; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.12em; }
+.section-h2 { font-family: 'DM Serif Display', Georgia, serif; font-size: 32px; font-weight: 400; line-height: 1.2; color: #0D1B3E; margin-bottom: 1rem; }
+.section-p { font-size: 15px; color: #555; line-height: 1.75; }
+
+/* SOBRE */
+.section-sobre { background: #fff; padding: 6rem 0; }
+.sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.sobre-text { }
+.sobre-cta { background: var(--navy); color: #fff; border: none; padding: 13px 26px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font); margin-top: 2rem; transition: background 0.15s; }
+.sobre-cta:hover { background: #1a2f5e; }
+.sobre-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sobre-card { background: #F8F9FA; border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
+.sc-icon { width: 36px; height: 36px; background: var(--navy); color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.sc-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: #1a1a1a; }
+.sc-desc { font-size: 12px; color: #777; line-height: 1.6; }
+
+/* ESPECIALIDADES */
+.section-espec { background: #F9F8F6; padding: 6rem 0; }
+.espec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.espec-card { background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 14px; padding: 1.75rem; transition: all 0.2s; cursor: default; }
+.espec-card:hover { border-color: rgba(13,27,62,0.3); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+.espec-num { font-size: 11px; font-weight: 600; color: #6B5718; letter-spacing: 0.1em; margin-bottom: 10px; }
+.espec-title { font-size: 17px; font-weight: 600; color: #0D1B3E; margin-bottom: 8px; }
+.espec-desc { font-size: 13px; color: #666; line-height: 1.65; }
+.espec-link { font-size: 12px; color: var(--navy); font-weight: 500; margin-top: 12px; cursor: pointer; }
+.espec-link:hover { text-decoration: underline; }
+
+/* MODALIDADES */
+.section-modal { background: #F5F4F1; padding: 6rem 0; }
+.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.modal-card { border-radius: 16px; padding: 2.5rem; }
+.modal-card-dark { background: #162648; border: none; }
+.modal-card-light { background: #fff; border: 0.5px solid rgba(0,0,0,0.1); }
+.modal-tag { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 16px; font-weight: 500; }
+.modal-tag-navy { color: var(--navy) !important; }
+.modal-title { font-family: 'DM Serif Display', Georgia, serif; font-size: 28px; color: #fff; font-weight: 400; margin-bottom: 12px; }
+.modal-desc { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 1.5rem; }
+.modal-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+.modal-item { font-size: 13px; color: rgba(255,255,255,0.7); padding-left: 14px; position: relative; }
+.modal-item::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-size: 12px; }
+.modal-items-dark .modal-item { color: #555; }
+.modal-items-dark .modal-item::before { color: var(--navy); }
+.modal-btn { border: none; padding: 13px 24px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); width: 100%; background: #fff; color: #0D1B3E; transition: opacity 0.15s; }
+.modal-btn:hover { opacity: 0.88; }
+.modal-btn-navy { background: var(--navy); color: #fff; }
+.modal-btn-navy:hover { background: #1a2f5e; opacity: 1; }
+
+/* BLOG PREVIEW */
+.section-blog-preview { background: #FAFAF8; padding: 6rem 0; }
+.blog-preview-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+.ver-todos-btn { background: transparent; border: 1px solid var(--navy); color: var(--navy); padding: 10px 22px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font); transition: all 0.15s; white-space: nowrap; }
+.ver-todos-btn:hover { background: var(--navy); color: #fff; }
+.blog-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.bp-card { border: 1px solid rgba(0,0,0,0.07); border-radius: 14px; padding: 1.75rem; cursor: pointer; transition: all 0.2s; }
+.bp-card:hover { border-color: rgba(13,27,62,0.25); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+.bp-num { font-size: 11px; font-weight: 600; color: #6B5718; letter-spacing: 0.1em; margin-bottom: 10px; }
+.bp-title { font-size: 15px; font-weight: 600; color: #0D1B3E; line-height: 1.45; margin-bottom: 10px; }
+.bp-meta { font-size: 12px; color: #999; }
+
+/* CTA FINAL */
+.section-cta-final { background: #F9F8F6; border-top: 0.5px solid rgba(0,0,0,0.08); padding: 7rem 0; }
+.cta-eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 500; }
+.cta-h2 { font-family: 'DM Serif Display', Georgia, serif; font-size: 40px; font-weight: 400; color: #0D1B3E; margin-bottom: 1rem; }
+.cta-desc { font-size: 16px; color: #666; line-height: 1.7; max-width: 520px; margin: 0 auto 2.5rem; }
+.cta-final-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+.hero-btn-secondary-light { background: transparent; color: var(--navy); border: 1px solid rgba(13,27,62,0.25); padding: 13px 26px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: var(--font); transition: all 0.15s; }
+.hero-btn-secondary-light:hover { background: var(--navy); color: #fff; }
+.cta-lgpd { font-size: 12px; color: #aaa; }
+
+/* FOOTER */
+.pub-footer { background: var(--navy); padding: 4rem 3rem 2rem; }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 2rem; flex-wrap: wrap; }
+.footer-logo { font-family: 'DM Serif Display', Georgia, serif; font-size: 22px; color: #fff; font-weight: 400; }
+.footer-role { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.footer-line { width: 32px; height: 2px; background: rgba(255,255,255,0.3); margin-top: 14px; }
+.footer-links-group { display: flex; gap: 3rem; }
+.footer-link-col { display: flex; flex-direction: column; gap: 10px; }
+.flc-title { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+.footer-link-col a { font-size: 13px; color: rgba(255,255,255,0.55); text-decoration: none; cursor: pointer; transition: color 0.15s; }
+.footer-link-col a:hover { color: rgba(255,255,255,0.9); }
+.footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.3); flex-wrap: wrap; gap: 8px; }
+
+/* Sidebar widgets (blog) */
+.cta-card-side { background: var(--navy); border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 1rem; }
+.cta-card-side h3 { color: #fff; font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+.cta-card-side p { color: rgba(255,255,255,0.55); font-size: 12px; line-height: 1.6; margin-bottom: 1.25rem; }
+.cta-card-btn { background: var(--gold); color: var(--navy); border: none; padding: 11px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; width: 100%; font-family: var(--font); transition: opacity 0.15s; }
+.cta-card-btn:hover { opacity: 0.88; }
+.info-item-row { display: flex; gap: 10px; padding: 9px 0; border-bottom: 0.5px solid rgba(0,0,0,0.07); cursor: pointer; }
+.info-item-row:hover { opacity: 0.7; }
+.iir-num { font-size: 16px; font-weight: 600; color: rgba(13,27,62,0.15); min-width: 24px; }
+.iir-title { font-size: 12px; font-weight: 500; line-height: 1.4; }
+.iir-sub { font-size: 11px; color: #999; margin-top: 2px; }
+
+/* JS function for pub pages */
+
+</style>
+</head>
+<body>
+
+
+  <!-- NAV -->
+  <nav class="pub-nav" id="pub-nav">
+    <div class="pub-logo">Dr <span>Albert</span> Mojzeszowicz <span style="color:rgba(255,255,255,0.3);font-size:10px;margin-left:6px;letter-spacing:0.08em;">PSIQUIATRA</span></div>
+    <div class="pub-nav-links" id="pub-nav-links">
+      <a onclick="showPubPage('home')">Início</a>
+      <a onclick="showPubPage('blog')">Blog</a>
+      <a onclick="showPubPage('duvidas')">Dúvidas</a>
+      <a onclick="showPubPage('espera')" class="nav-cta-btn">Lista de espera</a>
+    </div>
+  </nav>
+
+  <!-- ===== HOME PAGE ===== -->
+  <div class="pub-page active-pub" id="pub-home">
+
+    <!-- HERO -->
+    <section class="landing-hero">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <div class="hero-eyebrow">Psiquiatria · Saúde Mental</div>
+          <h1 class="hero-name">Dr. Albert<br><span>Mojzeszowicz</span></h1>
+          <p class="hero-desc">Psiquiatra especializado em ansiedade, depressão, TDAH e transtornos do humor. Atendimento humanizado, com escuta ativa e tratamento baseado em evidências.</p>
+          <div class="hero-actions">
+            <button class="hero-btn-primary" onclick="showPubPage('espera')">Entrar na lista de espera</button>
+            <button class="hero-btn-secondary" onclick="showPubPage('agendamento')">Agendar consulta</button>
+          </div>
+          <div class="hero-badges">
+            <div class="hero-badge"><span class="hb-val">+8</span><span class="hb-label">anos de experiência</span></div>
+            <div class="hero-badge-div"></div>
+            <div class="hero-badge"><span class="hb-val">CRM</span><span class="hb-label">registrado</span></div>
+            <div class="hero-badge-div"></div>
+            <div class="hero-badge"><span class="hb-val">Online</span><span class="hb-label">e presencial</span></div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-card-float">
+            <div class="hcf-header">
+              <div class="hcf-avatar">AM</div>
+              <div>
+                <div class="hcf-name">Dr. Albert Mojzeszowicz</div>
+                <div class="hcf-role">Médico Psiquiatra · CRM/GO</div>
+              </div>
+            </div>
+            <div class="hcf-divider"></div>
+            <div class="hcf-items">
+              <div class="hcf-item"><span class="hcf-dot hcf-dot-green"></span>Aceitando novos pacientes</div>
+              <div class="hcf-item"><span class="hcf-dot hcf-dot-blue"></span>Telemedicina disponível</div>
+              <div class="hcf-item"><span class="hcf-dot hcf-dot-gold"></span>Retornos em 30 dias</div>
+            </div>
+            <div class="hcf-divider"></div>
+            <div style="font-size:11px;color:#A09C98;letter-spacing:0.04em;">Especialidades</div>
+            <div class="hcf-tags">
+              <span>Ansiedade</span><span>Depressão</span><span>TDAH</span><span>Bipolaridade</span><span>Insônia</span><span>Burnout</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="section-sobre">
+      <div class="section-container">
+        <div class="sobre-grid">
+          <div class="sobre-text">
+            <div class="section-label-gold">Sobre o Dr. Albert</div>
+            <h2 class="section-h2">Psiquiatria humanizada,<br>baseada em evidências</h2>
+            <p class="section-p">A psiquiatria moderna vai muito além da medicalização. O Dr. Albert acredita em uma abordagem integrativa — combinando farmacoterapia quando necessária com escuta qualificada, psicoeducação e suporte contínuo ao paciente e à família.</p>
+            <p class="section-p" style="margin-top:1rem;">Cada plano terapêutico é construído individualmente, considerando a história de vida, as demandas atuais e os objetivos de cada pessoa.</p>
+            <button class="sobre-cta" onclick="showPubPage('espera')">Agendar primeira consulta</button>
+          </div>
+          <div class="sobre-cards">
+            <div class="sobre-card">
+              <div class="sc-icon">A</div>
+              <div class="sc-title">Avaliação completa</div>
+              <div class="sc-desc">Consulta inicial de 50 minutos com histórico detalhado e definição do plano terapêutico</div>
+            </div>
+            <div class="sobre-card">
+              <div class="sc-icon">E</div>
+              <div class="sc-title">Escuta ativa</div>
+              <div class="sc-desc">Ambiente acolhedor e sigiloso, sem julgamentos, com foco no que realmente importa para você</div>
+            </div>
+            <div class="sobre-card">
+              <div class="sc-icon">C</div>
+              <div class="sc-title">Continuidade</div>
+              <div class="sc-desc">Acompanhamento regular com retornos programados e ajustes ao longo do tratamento</div>
+            </div>
+            <div class="sobre-card">
+              <div class="sc-icon">P</div>
+              <div class="sc-title">Parceria</div>
+              <div class="sc-desc">Trabalho integrado com psicólogos, clínicos gerais e outros especialistas quando necessário</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESPECIALIDADES -->
+    <section class="section-espec">
+      <div class="section-container">
+        <div style="text-align:center;margin-bottom:3rem;">
+          <div class="section-label-gold">Áreas de atuação</div>
+          <h2 class="section-h2">O que tratamos</h2>
+        </div>
+        <div class="espec-grid">
+          <div class="espec-card" onclick="showPubPage('blog')">
+            <div class="espec-num">01</div>
+            <div class="espec-title">Ansiedade</div>
+            <div class="espec-desc">TAG, síndrome do pânico, ansiedade social, fobias específicas e transtorno obsessivo-compulsivo</div>
+            <div class="espec-link">Ver mini-curso →</div>
+          </div>
+          <div class="espec-card" onclick="showPubPage('blog')">
+            <div class="espec-num">02</div>
+            <div class="espec-title">Depressão</div>
+            <div class="espec-desc">Episódios depressivos, depressão recorrente, distimia e depressão pós-parto</div>
+            <div class="espec-link">Ler artigos →</div>
+          </div>
+          <div class="espec-card">
+            <div class="espec-num">03</div>
+            <div class="espec-title">TDAH</div>
+            <div class="espec-desc">Diagnóstico e tratamento em adultos, inclusive casos de diagnóstico tardio após os 30 anos</div>
+          </div>
+          <div class="espec-card">
+            <div class="espec-num">04</div>
+            <div class="espec-title">Transtorno bipolar</div>
+            <div class="espec-desc">Acompanhamento das fases maníaca, hipomaníaca e depressiva com estabilização do humor</div>
+          </div>
+          <div class="espec-card">
+            <div class="espec-num">05</div>
+            <div class="espec-title">Burnout e estresse</div>
+            <div class="espec-desc">Esgotamento profissional, estresse crônico e dificuldade de desligamento do trabalho</div>
+          </div>
+          <div class="espec-card">
+            <div class="espec-num">06</div>
+            <div class="espec-title">Insônia</div>
+            <div class="espec-desc">Dificuldade para dormir, sono fragmentado, despertar precoce e insônia associada a outros transtornos</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODALIDADES -->
+    <section class="section-modal">
+      <div class="section-container">
+        <div class="modal-grid">
+          <div class="modal-card modal-card-dark">
+            <div class="modal-tag">Presencial</div>
+            <h3 class="modal-title">Consulta no consultório</h3>
+            <p class="modal-desc">Atendimento presencial em Goiânia, GO. Ambiente acolhedor e reservado, com toda a atenção necessária para uma avaliação completa.</p>
+            <div class="modal-items">
+              <div class="modal-item">Consulta inicial: 50 min</div>
+              <div class="modal-item">Retornos: 30 min</div>
+              <div class="modal-item">Atendimento particular</div>
+              <div class="modal-item">Recibo para reembolso</div>
+            </div>
+            <button class="modal-btn" onclick="showPubPage('espera')">Entrar na lista de espera</button>
+          </div>
+          <div class="modal-card modal-card-light">
+            <div class="modal-tag modal-tag-navy">Telemedicina</div>
+            <h3 class="modal-title" style="color:#0D1B3E;">Consulta online</h3>
+            <p class="modal-desc" style="color:#555;">Para quem está fora de Goiânia ou prefere a comodidade do atendimento remoto. Segue todas as normas do Conselho Federal de Medicina.</p>
+            <div class="modal-items modal-items-dark">
+              <div class="modal-item modal-item-dark">Qualquer localidade do Brasil</div>
+              <div class="modal-item modal-item-dark">Mesma qualidade do presencial</div>
+              <div class="modal-item modal-item-dark">Videoconferência segura</div>
+              <div class="modal-item modal-item-dark">CFM regulamentado</div>
+            </div>
+            <button class="modal-btn modal-btn-navy" onclick="showPubPage('espera')">Solicitar vaga online</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG PREVIEW -->
+    <section class="section-blog-preview">
+      <div class="section-container">
+        <div class="blog-preview-header">
+          <div>
+            <div class="section-label-gold">Conteúdo</div>
+            <h2 class="section-h2">Mini-curso de ansiedade</h2>
+            <p class="section-p" style="max-width:520px;">6 artigos em linguagem acessível para quem quer entender, reconhecer e buscar tratamento para a ansiedade.</p>
+          </div>
+          <button class="ver-todos-btn" onclick="showPubPage('blog')">Ver todos os artigos</button>
+        </div>
+        <div class="blog-preview-grid">
+          <div class="bp-card" onclick="showPubPage('blog')">
+            <div class="bp-num">01</div>
+            <div class="bp-title">O que é ansiedade de verdade? Médico psiquiatra explica</div>
+            <div class="bp-meta">3 min de leitura · Mini-curso de ansiedade</div>
+          </div>
+          <div class="bp-card" onclick="showPubPage('blog')">
+            <div class="bp-num">02</div>
+            <div class="bp-title">Ansiedade social: mais do que timidez</div>
+            <div class="bp-meta">3 min de leitura · Mini-curso de ansiedade</div>
+          </div>
+          <div class="bp-card" onclick="showPubPage('blog')">
+            <div class="bp-num">03</div>
+            <div class="bp-title">Síndrome do pânico: o que acontece no seu cérebro durante um ataque</div>
+            <div class="bp-meta">3 min de leitura · Mini-curso de ansiedade</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="section-cta-final">
+      <div class="section-container" style="text-align:center;">
+        <div class="cta-eyebrow">Pronto para começar?</div>
+        <h2 class="cta-h2">Vagas disponíveis para novos pacientes</h2>
+        <p class="cta-desc">Entre na lista de espera e nossa secretária entrará em contato assim que uma vaga surgir. Processo rápido, sem burocracia.</p>
+        <div class="cta-final-actions">
+          <button class="hero-btn-primary" onclick="showPubPage('espera')">Entrar na lista de espera</button>
+          <button class="hero-btn-secondary-light" onclick="showPubPage('duvidas')">Tirar dúvidas antes</button>
+        </div>
+        <p class="cta-lgpd">Seus dados são protegidos pela LGPD e não serão compartilhados com terceiros.</p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="pub-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">Dr. Albert Mojzeszowicz</div>
+          <div class="footer-role">Médico Psiquiatra</div>
+          <div class="footer-line"></div>
+        </div>
+        <div class="footer-links-group">
+          <div class="footer-link-col">
+            <div class="flc-title">Site</div>
+            <a onclick="showPubPage('home')">Início</a>
+            <a onclick="showPubPage('blog')">Blog</a>
+            <a onclick="showPubPage('duvidas')">Dúvidas</a>
+          </div>
+          <div class="footer-link-col">
+            <div class="flc-title">Pacientes</div>
+            <a onclick="showPubPage('espera')">Lista de espera</a>
+            <a onclick="showPubPage('agendamento')">Agendamento</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Dr. Albert Mojzeszowicz · Todos os direitos reservados</span>
+        <span>CRM/GO 0000000</span>
+      </div>
+    </footer>
+
+  </div><!-- /pub-home -->
+
+  <!-- ===== LISTA DE ESPERA ===== -->
+  <div class="pub-page" id="pub-espera">
+    <nav class="pub-nav" style="position:sticky;top:0;">
+      <div class="pub-logo">Dr <span>Albert</span> Mojzeszowicz</div>
+      <div class="pub-nav-links">
+        <a onclick="showPubPage('home')">Início</a>
+        <a onclick="showPubPage('blog')">Blog</a>
+        <a onclick="showPubPage('duvidas')">Dúvidas</a>
+        <a class="nav-cta-btn nav-cta-active">Lista de espera</a>
+      </div>
+    </nav>
+    <div class="pub-content" style="max-width:700px;margin:0 auto;padding:2rem 2rem;">
+      <h2 style="font-size:22px;font-weight:500;margin-bottom:4px;">Lista de espera</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:1.5rem;">No momento, as vagas estão limitadas para casos novos. Cadastre-se para ser notificado assim que surgir disponibilidade.</p>
+      <div class="alert-banner"> No momento, as vagas estão limitadas para casos novos. Cadastre-se para ser notificado.</div>
+      <p class="section-label">Informações pessoais</p>
+      <div class="form-group"><label>Nome completo (igual ao documento, sem abreviaturas) *</label><input type="text" placeholder="Ex: Maria da Silva Oliveira"></div>
+      <div class="form-row">
+        <div class="form-group"><label>E-mail *</label><input type="email" placeholder="seu@email.com"></div>
+        <div class="form-group"><label>WhatsApp *</label><input type="tel" placeholder="+55 (62) 9 0000-0000"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Data de nascimento</label><input type="date"></div>
+        <div class="form-group"><label>Sexo</label><select><option>Selecione...</option><option>Feminino</option><option>Masculino</option><option>Prefiro não informar</option></select></div>
+      </div>
+      <hr class="divider">
+      <p class="section-label">Contexto clínico (opcional)</p>
+      <div class="form-group"><label>Motivo principal da consulta</label>
+        <select><option value="">Selecione...</option><option>Ansiedade / Pânico</option><option>Depressão / Tristeza persistente</option><option>TDAH</option><option>Transtorno Bipolar</option><option>Insônia</option><option>Burnout / Estresse</option><option>Outro</option></select>
+      </div>
+      <div class="form-group"><label>Já fez acompanhamento psiquiátrico antes?</label>
+        <select><option value="">Selecione...</option><option>Sim, continuo em acompanhamento</option><option>Sim, mas não estou mais</option><option>Nunca fiz</option></select>
+      </div>
+      <div class="form-group"><label>Informações adicionais relevantes (opcional)</label>
+        <textarea rows="3" placeholder="Histórico de tratamentos, medicamentos em uso, encaminhamentos médicos..."></textarea>
+      </div>
+      <div class="form-group"><label>Como nos encontrou?</label>
+        <select><option value="">Selecione...</option><option>Indicação médica</option><option>Indicação de paciente</option><option>Instagram</option><option>Google</option><option>LinkedIn</option><option>Outro</option></select>
+      </div>
+      <button class="btn btn-navy" style="width:100%;padding:13px;" onclick="alert('Cadastro enviado! Nossa secretária entrará em contato em breve.')">Entrar na lista de espera</button>
+      <p style="font-size:11px;color:#aaa;text-align:center;margin-top:0.75rem;">Seus dados são protegidos pela LGPD e não serão compartilhados com terceiros.</p>
+    </div>
+  </div>
+
+  <!-- ===== AGENDAMENTO ===== -->
+  <div class="pub-page" id="pub-agendamento">
+    <nav class="pub-nav" style="position:sticky;top:0;">
+      <div class="pub-logo">Dr <span>Albert</span> Mojzeszowicz</div>
+      <div class="pub-nav-links">
+        <a onclick="showPubPage('home')">Início</a>
+        <a onclick="showPubPage('blog')">Blog</a>
+        <a onclick="showPubPage('duvidas')">Dúvidas</a>
+        <a class="nav-cta-btn" onclick="showPubPage('espera')">Lista de espera</a>
+      </div>
+    </nav>
+    <div class="pub-content" style="max-width:700px;margin:0 auto;padding:2rem;">
+      <h2 style="font-size:22px;font-weight:500;margin-bottom:1.5rem;">Agendar consulta</h2>
+      <p class="section-label">Tipo de consulta</p>
+      <div class="info-card"><div class="ic-title">Consulta inicial — 50 min</div><div class="ic-sub">Avaliação clínica completa, histórico e definição do plano terapêutico.</div></div>
+      <div class="info-card"><div class="ic-title">Retorno — 30 min</div><div class="ic-sub">Acompanhamento evolutivo, ajuste de medicação e revisão de metas.</div></div>
+      <hr class="divider">
+      <div class="form-group"><label>Selecione o tipo de consulta</label>
+        <select><option>Consulta inicial (presencial)</option><option>Consulta inicial (telemedicina)</option><option>Retorno (presencial)</option><option>Retorno (telemedicina)</option></select>
+      </div>
+      <div class="form-group"><label>Nome completo *</label><input type="text" placeholder="Como consta no documento"></div>
+      <div class="form-row">
+        <div class="form-group"><label>E-mail *</label><input type="email" placeholder="seu@email.com"></div>
+        <div class="form-group"><label>WhatsApp *</label><input type="tel" placeholder="+55 (62) 9 0000-0000"></div>
+      </div>
+      <button class="btn btn-navy" style="width:100%;padding:13px;" onclick="alert('Solicitação enviada! Em breve entraremos em contato.')">Solicitar agendamento</button>
+    </div>
+  </div>
+
+  <!-- ===== BLOG ===== -->
+  <div class="pub-page" id="pub-blog">
+    <nav class="pub-nav" style="position:sticky;top:0;">
+      <div class="pub-logo">Dr <span>Albert</span> Mojzeszowicz</div>
+      <div class="pub-nav-links">
+        <a onclick="showPubPage('home')">Início</a>
+        <a style="color:#fff;">Blog</a>
+        <a onclick="showPubPage('duvidas')">Dúvidas</a>
+        <a class="nav-cta-btn" onclick="showPubPage('espera')">Lista de espera</a>
+      </div>
+    </nav>
+    <div class="cat-bar" style="position:sticky;top:68px;">
+      <button class="cat-btn active" onclick="showBlog('all',this)">Todos os posts</button>
+      <button class="cat-btn" onclick="showBlog('curso',this)">Mini-curso de ansiedade</button>
+      <button class="cat-btn" onclick="showBlog('depressao',this)">Depressão</button>
+    </div>
+    <!-- Blog ALL -->
+    <div id="blog-all" style="display:block;">
+      <div class="curso-hero">
+        <div class="ch-label">Série especial</div>
+        <div class="ch-title">Mini-curso de ansiedade</div>
+        <div class="ch-sub">Ansiedade: Entender, Reconhecer e Tratar — 6 perguntas respondidas</div>
+        <div class="ch-pills"><span class="ch-pill">6 artigos</span><span class="ch-pill">~20 min de leitura</span><span class="ch-pill">Dr. Albert Mojzeszowicz</span></div>
+      </div>
+      <div class="blog-layout">
+        <div>
+          <p class="section-label">Mini-curso de ansiedade — série completa</p>
+          <div class="step-card" onclick="alert('Artigo 1')"><div class="step-num">1</div><div><div class="step-title">O que é ansiedade de verdade? Médico psiquiatra explica</div><div class="step-excerpt">Ansiedade é uma resposta emocional e fisiológica antecipatória diante de ameaças percebidas, sejam reais ou imaginárias. Envolve ativação do sistema nervoso autônomo, sentimento de medo e comportamentos de evitação.</div><div class="step-meta"><span>3 min · 7 mar</span></div></div></div>
+          <div class="step-connector"></div>
+          <div class="step-card" onclick="alert('Artigo 2')"><div class="step-num">2</div><div><div class="step-title">Ansiedade ou nervosismo? Como diferenciar</div><div class="step-excerpt">Nervosismo é uma resposta emocional transitória e proporcional a um estressor identificável. Ansiedade clínica, por sua vez, é persistente, frequentemente desproporcional ao gatilho.</div><div class="step-meta"><span>3 min · 8 mar</span></div></div></div>
+          <div class="step-connector"></div>
+          <div class="step-card" onclick="alert('Artigo 3')"><div class="step-num">3</div><div><div class="step-title">Ansiedade generalizada: sintomas, diagnóstico e tratamento</div><div class="step-excerpt">O TAG é caracterizado por preocupação excessiva, persistente e de difícil controle sobre múltiplos temas do cotidiano — saúde, finanças, trabalho, família.</div><div class="step-meta"><span>3 min · 8 mar</span></div></div></div>
+          <div class="step-connector"></div>
+          <div class="step-card" onclick="alert('Artigo 4')"><div class="step-num">4</div><div><div class="step-title">Ansiedade social: mais do que timidez</div><div class="step-excerpt">O transtorno de ansiedade social é caracterizado por medo intenso e persistente de situações sociais ou de desempenho nas quais o indivíduo teme ser avaliado negativamente.</div><div class="step-meta"><span>3 min · 8 mar</span></div></div></div>
+          <div class="step-connector"></div>
+          <div class="step-card" onclick="alert('Artigo 5')"><div class="step-num">5</div><div><div class="step-title">Síndrome do pânico: o que acontece no seu cérebro durante um ataque</div><div class="step-excerpt">O transtorno de pânico é caracterizado por ataques recorrentes e inesperados de medo, acompanhados de sintomas físicos agudos. Após os ataques, o paciente desenvolve preocupação persistente.</div><div class="step-meta"><span>3 min · 8 mar</span></div></div></div>
+          <div class="step-connector"></div>
+          <div class="step-card" onclick="alert('Artigo 6')"><div class="step-num">6</div><div><div class="step-title">Remédio para ansiedade: quando é necessário e como funciona</div><div class="step-excerpt">O tratamento farmacológico da ansiedade é indicado quando o transtorno causa sofrimento significativo ou prejuízo funcional. A decisão é sempre individual e feita por médico.</div><div class="step-meta"><span>4 min · 8 mar</span></div></div></div>
+          <div style="height:1.5rem;border-left:0.5px dashed rgba(0,0,0,0.1);margin-left:16px;"></div>
+          <p class="section-label">Depressão</p>
+          <div class="post-card"><div class="post-meta"><span class="post-cat-badge cat-dep">Depressão</span><span class="post-date">há 5 dias</span><span class="post-read">· 5 min</span></div><div class="post-title">Depressão: por que tristeza e depressão não são a mesma coisa</div><div class="post-excerpt">A depressão é uma condição médica que afeta humor, cognição, sono e funcionamento geral. Diferente da tristeza situacional, ela persiste e exige tratamento especializado.</div><div class="post-footer"><span class="post-author">Dr. Albert Mojzeszowicz</span><span class="read-more">Ler artigo →</span></div></div>
+          <div class="post-card"><div class="post-meta"><span class="post-cat-badge cat-dep">Depressão</span><span class="post-date">há 6 dias</span><span class="post-read">· 4 min</span></div><div class="post-title">Antidepressivos: mitos, verdades e o que esperar do tratamento</div><div class="post-excerpt">Muitas pessoas têm receio de iniciar antidepressivos por desinformação. Este artigo esclarece como funcionam, efeitos colaterais reais e o tempo até o resultado.</div><div class="post-footer"><span class="post-author">Dr. Albert Mojzeszowicz</span><span class="read-more">Ler artigo →</span></div></div>
+        </div>
+        <aside>
+          <div class="cta-card-side"><h3>Precisa de atendimento?</h3><p>Vagas limitadas. Cadastre-se para ser notificado.</p><button class="cta-card-btn" onclick="showPubPage('espera')">Lista de espera</button></div>
+          <div class="sidebar-widget"><div class="sw-head">Mais lidos</div><div style="padding:0.75rem 1.25rem;">
+            <div class="info-item-row"><div class="iir-num">01</div><div><div class="iir-title">O que é ansiedade de verdade?</div><div class="iir-sub">Mini-curso de ansiedade</div></div></div>
+            <div class="info-item-row"><div class="iir-num">02</div><div><div class="iir-title">Síndrome do pânico: o cérebro durante um ataque</div><div class="iir-sub">Mini-curso de ansiedade</div></div></div>
+            <div class="info-item-row" style="border:none"><div class="iir-num">03</div><div><div class="iir-title">Tristeza e depressão não são iguais</div><div class="iir-sub">Depressão</div></div></div>
+          </div></div>
+        </aside>
+      </div>
+    </div>
+    <!-- Blog ANSIEDADE -->
+    <div id="blog-curso" style="display:none;">
+      <div class="curso-hero"><div class="ch-label">Série especial — 6 artigos</div><div class="ch-title">Mini-curso de ansiedade</div><div class="ch-sub">Ansiedade: Entender, Reconhecer e Tratar</div><div class="ch-pills"><span class="ch-pill">~20 min de leitura</span><span class="ch-pill">Dr. Albert Mojzeszowicz</span></div></div>
+      <div class="blog-layout"><div>
+        <div class="step-card"><div class="step-num">1</div><div><div class="step-title">O que é ansiedade de verdade? Médico psiquiatra explica</div><div class="step-excerpt">Ansiedade é uma resposta emocional e fisiológica antecipatória diante de ameaças percebidas, sejam reais ou imaginárias. Envolve ativação do sistema nervoso autônomo, sentimento de medo e comportamentos de evitação. Quando desproporcional ou persistente, pode configurar um transtorno mental.</div><div class="step-meta"><span>3 min · 7 mar · Dr. Albert Mojzeszowicz</span></div></div></div>
+        <div class="step-connector"></div>
+        <div class="step-card"><div class="step-num">2</div><div><div class="step-title">Ansiedade ou nervosismo? Como diferenciar</div><div class="step-excerpt">Nervosismo é uma resposta emocional transitória e proporcional a um estressor identificável — uma entrevista, uma prova, um conflito. Ansiedade clínica, por sua vez, é persistente, frequentemente desproporcional ao gatilho e interfere no funcionamento cotidiano, mesmo na ausência de causa aparente.</div><div class="step-meta"><span>3 min · 8 mar · Dr. Albert Mojzeszowicz</span></div></div></div>
+        <div class="step-connector"></div>
+        <div class="step-card"><div class="step-num">3</div><div><div class="step-title">Ansiedade generalizada: sintomas, diagnóstico e tratamento</div><div class="step-excerpt">O transtorno de ansiedade generalizada (TAG) é caracterizado por preocupação excessiva, persistente e de difícil controle sobre múltiplos temas do cotidiano — saúde, finanças, trabalho, família. Os sintomas devem estar presentes na maioria dos dias por pelo menos seis meses e causar prejuízo funcional significativo.</div><div class="step-meta"><span>3 min · 8 mar · Dr. Albert Mojzeszowicz</span></div></div></div>
+        <div class="step-connector"></div>
+        <div class="step-card"><div class="step-num">4</div><div><div class="step-title">Ansiedade social: mais do que timidez</div><div class="step-excerpt">O transtorno de ansiedade social (antigamente chamado fobia social) é caracterizado por medo intenso e persistente de situações sociais ou de desempenho nas quais o indivíduo teme ser avaliado negativamente, julgado, humilhado ou envergonhado. Vai muito além da timidez.</div><div class="step-meta"><span>3 min · 8 mar · Dr. Albert Mojzeszowicz</span></div></div></div>
+        <div class="step-connector"></div>
+        <div class="step-card"><div class="step-num">5</div><div><div class="step-title">Síndrome do pânico: o que acontece no seu cérebro durante um ataque</div><div class="step-excerpt">O transtorno de pânico é caracterizado por ataques recorrentes e inesperados de medo, acompanhados de sintomas físicos agudos. Após os ataques, o paciente desenvolve preocupação persistente sobre novos episódios ou muda significativamente seu comportamento para evitá-los.</div><div class="step-meta"><span>3 min · 8 mar · Dr. Albert Mojzeszowicz</span></div></div></div>
+        <div class="step-connector"></div>
+        <div class="step-card"><div class="step-num">6</div><div><div class="step-title">Remédio para ansiedade: quando é necessário e como funciona</div><div class="step-excerpt">O tratamento farmacológico da ansiedade é indicado quando o transtorno causa sofrimento significativo ou prejuízo funcional, especialmente em quadros moderados a graves, quando a resposta à psicoterapia isolada é insuficiente. A decisão é sempre individual e feita por médico.</div><div class="step-meta"><span>4 min · 8 mar · Dr. Albert Mojzeszowicz</span></div></div></div>
+      </div><aside><div class="cta-card-side"><h3>Gostou do conteúdo?</h3><p>Converse com um especialista.</p><button class="cta-card-btn" onclick="showPubPage('espera')">Agendar consulta</button></div></aside></div>
+    </div>
+    <!-- Blog DEPRESSAO -->
+    <div id="blog-depressao" style="display:none;">
+      <div class="blog-layout" style="padding-top:2rem;">
+        <div>
+          <div class="post-card"><div class="post-meta"><span class="post-cat-badge cat-dep">Depressão</span><span class="post-date">há 5 dias</span><span class="post-read">· 5 min</span></div><div class="post-title">Depressão: por que tristeza e depressão não são a mesma coisa</div><div class="post-excerpt">A depressão é uma condição médica complexa que afeta humor, cognição, sono e funcionamento geral. Diferente da tristeza situacional, ela persiste, compromete o prazer em atividades antes aprazíveis e exige tratamento especializado.</div><div class="post-footer"><span class="post-author">Dr. Albert Mojzeszowicz</span><span class="read-more">Ler artigo →</span></div></div>
+          <div class="post-card"><div class="post-meta"><span class="post-cat-badge cat-dep">Depressão</span><span class="post-date">há 6 dias</span><span class="post-read">· 4 min</span></div><div class="post-title">Antidepressivos: mitos, verdades e o que esperar do tratamento</div><div class="post-excerpt">Muitas pessoas têm receio de iniciar antidepressivos por desinformação. Este artigo esclarece como funcionam, efeitos colaterais reais e o tempo até o resultado aparecer.</div><div class="post-footer"><span class="post-author">Dr. Albert Mojzeszowicz</span><span class="read-more">Ler artigo →</span></div></div>
+        </div>
+        <aside><div class="cta-card-side"><h3>Precisa de atendimento?</h3><p>Vagas limitadas.</p><button class="cta-card-btn" onclick="showPubPage('espera')">Lista de espera</button></div></aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DUVIDAS ===== -->
+  <div class="pub-page" id="pub-duvidas">
+    <nav class="pub-nav" style="position:sticky;top:0;">
+      <div class="pub-logo">Dr <span>Albert</span> Mojzeszowicz</div>
+      <div class="pub-nav-links">
+        <a onclick="showPubPage('home')">Início</a>
+        <a onclick="showPubPage('blog')">Blog</a>
+        <a style="color:#fff;">Dúvidas</a>
+        <a class="nav-cta-btn" onclick="showPubPage('espera')">Lista de espera</a>
+      </div>
+    </nav>
+    <div class="pub-content" style="max-width:700px;margin:0 auto;padding:2rem;">
+      <h2 style="font-size:22px;font-weight:500;margin-bottom:1.5rem;">Dúvidas frequentes</h2>
+      <div class="faq-item" onclick="alert('Não. Qualquer pessoa pode agendar uma consulta diretamente, sem necessidade de encaminhamento médico.')"><div class="faq-q">Preciso de encaminhamento para consultar? <span>+</span></div></div>
+      <div class="faq-item" onclick="alert('O atendimento é particular. Fornecemos recibo para reembolso, caso seu plano cubra psiquiatria.')"><div class="faq-q">Atende pelo plano de saúde? <span>+</span></div></div>
+      <div class="faq-item" onclick="alert('Ambas as modalidades estão disponíveis. A telemedicina segue todas as normas do CFM.')"><div class="faq-q">As consultas são presenciais ou online? <span>+</span></div></div>
+      <div class="faq-item" onclick="alert('O psiquiatra é médico e pode prescrever medicamentos. O psicólogo realiza psicoterapia. Os tratamentos são complementares.')"><div class="faq-q">Qual a diferença entre psiquiatra e psicólogo? <span>+</span></div></div>
+      <div class="faq-item" onclick="alert('A consulta inicial dura 50 minutos. Os retornos têm duração de 30 minutos.')"><div class="faq-q">Quanto tempo dura uma consulta? <span>+</span></div></div>
+      <div class="faq-item" onclick="alert('Não necessariamente. A decisão sobre medicação é sempre individual, baseada em avaliação clínica detalhada.')"><div class="faq-q">Vou precisar tomar remédio? <span>+</span></div></div>
+      <div class="faq-item" onclick="alert('A consulta é confidencial. As informações são protegidas pelo sigilo médico e pela LGPD.')"><div class="faq-q">As informações da consulta são confidenciais? <span>+</span></div></div>
+    </div>
+  </div>
+
+
+
+
+
+<script>
+function showPubPage(id) {
+  document.querySelectorAll('.pub-page').forEach(p => p.classList.remove('active-pub'));
+  const el = document.getElementById('pub-' + id);
+  if(el) { el.classList.add('active-pub'); window.scrollTo(0,0); }
+}
+
+function showBlog(cat, el) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  ['all','curso','depressao'].forEach(c => {
+    const d = document.getElementById('blog-' + c);
+    if(d) d.style.display = c === cat ? 'block' : 'none';
+  });
+}
+</script>
+</body>
+</html>

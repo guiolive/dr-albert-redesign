@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Albert Mojzeszowicz — Psiquiatra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #F5F2ED;
+    --bg2:       #EDEAE3;
+    --white:     #FDFCFA;
+    --ink:       #1C1C1A;
+    --ink2:      #4A4A45;
+    --ink3:      #8A8A82;
+    --sage:      #4A7C59;
+    --sage-light:#E8F0E9;
+    --sage-mid:  #A8C5AD;
+    --radius:    12px;
+    --radius-lg: 20px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,242,237,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(74,124,89,.12);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px; color: var(--ink);
+    text-decoration: none;
+    display: flex; flex-direction: column; line-height: 1.1;
+  }
+  .nav-logo span { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 300; color: var(--ink3); letter-spacing: .12em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { font-size: 14px; color: var(--ink2); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--sage); }
+  .btn-nav {
+    background: var(--sage); color: #fff;
+    border: none; border-radius: 100px;
+    padding: 10px 22px; font-size: 14px; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s, transform .15s;
+    white-space: nowrap;
+  }
+  .btn-nav:hover { background: #3a6347; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 48px;
+    padding: 64px 5% 0;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -80px; right: 380px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,124,89,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { max-width: 560px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--sage-light); color: var(--sage);
+    border-radius: 100px; padding: 6px 14px;
+    font-size: 12px; font-weight: 500; letter-spacing: .04em;
+    margin-bottom: 28px;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--sage); flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(.8)} }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(34px, 4.5vw, 54px);
+    line-height: 1.1; color: var(--ink); margin-bottom: 20px;
+  }
+  .hero h1 em { font-style: italic; color: var(--sage); }
+  .hero-sub {
+    font-size: 17px; font-weight: 300;
+    color: var(--ink2); line-height: 1.65;
+    max-width: 480px; margin-bottom: 36px;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+  .btn-primary {
+    background: var(--sage); color: #fff;
+    border: none; border-radius: 100px;
+    padding: 14px 28px; font-size: 15px; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: #3a6347; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,124,89,.25); }
+  .btn-ghost {
+    background: var(--white); color: var(--ink);
+    border: 1.5px solid rgba(28,28,26,.15); border-radius: 100px;
+    padding: 13px 24px; font-size: 15px; font-weight: 400;
+    cursor: pointer; text-decoration: none;
+    transition: border-color .2s, transform .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-ghost:hover { border-color: var(--sage); transform: translateY(-2px); }
+  .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; }
+  .trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--ink3); }
+  .trust-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sage-mid); flex-shrink: 0; }
+
+  /* FOTO */
+  .hero-photo { position: relative; align-self: flex-end; padding-top: 32px; }
+  .photo-card {
+    background: var(--sage-light);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    height: 500px; overflow: hidden; position: relative;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(160deg, #d4e8d8 0%, #c2dfc8 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px;
+  }
+  .photo-placeholder svg { opacity: .35; }
+  .photo-placeholder span { font-size: 12px; color: var(--sage); opacity: .7; }
+  .photo-float {
+    position: absolute; bottom: 20px; left: -24px;
+    background: var(--white); border-radius: var(--radius);
+    padding: 14px 18px;
+    box-shadow: 0 4px 24px rgba(28,28,26,.12);
+    min-width: 190px;
+  }
+  .float-label { font-size: 10px; color: var(--ink3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+  .float-val { font-size: 15px; font-weight: 500; color: var(--ink); }
+  .float-sub { font-size: 12px; color: var(--ink3); margin-top: 2px; }
+
+  /* OBJECTIONS */
+  .objections {
+    background: var(--white);
+    padding: 56px 5%;
+    border-top: 1px solid rgba(28,28,26,.07);
+  }
+  .obj-label {
+    font-size: 11px; font-weight: 500; color: var(--ink3);
+    letter-spacing: .1em; text-transform: uppercase;
+    text-align: center; margin-bottom: 28px;
+  }
+  .obj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px; max-width: 960px; margin: 0 auto;
+  }
+  .obj-card { background: var(--bg); border-radius: var(--radius); padding: 20px 22px; }
+  .obj-icon { font-size: 20px; margin-bottom: 8px; display: block; }
+  .obj-q { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .obj-a { font-size: 13px; color: var(--ink2); line-height: 1.55; }
+  .obj-a strong { color: var(--sage); font-weight: 500; }
+
+  /* HOW IT WORKS */
+  .how { padding: 80px 5%; max-width: 960px; margin: 0 auto; }
+  .section-label { font-size: 11px; font-weight: 500; color: var(--sage); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 3.5vw, 38px);
+    line-height: 1.15; color: var(--ink); margin-bottom: 48px; max-width: 460px;
+  }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .step {
+    padding: 28px; background: var(--white); border-radius: var(--radius-lg);
+    border: 1px solid rgba(28,28,26,.07);
+    transition: transform .2s, box-shadow .2s;
+    position: relative;
+  }
+  .step:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,28,26,.08); }
+  .step-num {
+    font-family: 'DM Serif Display', serif; font-size: 44px;
+    color: var(--sage-mid); line-height: 1; margin-bottom: 14px;
+  }
+  .step h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+  /* CONDITIONS */
+  .conditions { background: var(--ink); padding: 80px 5%; color: #fff; }
+  .cond-inner { max-width: 960px; margin: 0 auto; }
+  .cond-inner .section-label { color: var(--sage-mid); }
+  .cond-inner .section-title { color: #fff; }
+  .cond-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+  .cond-item {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
+    border-radius: var(--radius); padding: 14px 18px;
+    font-size: 14px; color: rgba(255,255,255,.75);
+    transition: background .2s, border-color .2s; cursor: default;
+  }
+  .cond-item:hover { background: rgba(74,124,89,.2); border-color: var(--sage-mid); color: #fff; }
+
+  /* ABOUT */
+  .about {
+    padding: 80px 5%; max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start;
+  }
+  .about-text { font-size: 15px; color: var(--ink2); line-height: 1.75; margin-bottom: 28px; }
+  .credentials { display: flex; flex-direction: column; gap: 10px; }
+  .cred { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
+  .cred-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sage); flex-shrink: 0; margin-top: 7px; }
+  .cred-text { color: var(--ink2); line-height: 1.5; }
+  .cred-text strong { color: var(--ink); font-weight: 500; display: block; }
+  .about-card {
+    background: var(--sage-light); border-radius: var(--radius-lg);
+    padding: 32px; position: sticky; top: 88px;
+  }
+  .about-quote {
+    font-family: 'DM Serif Display', serif; font-size: 19px; font-style: italic;
+    line-height: 1.55; color: var(--ink); margin-bottom: 24px;
+  }
+  .quote-mark { font-size: 40px; color: var(--sage-mid); line-height: .6; display: block; margin-bottom: 8px; }
+  .about-author { font-size: 13px; color: var(--ink3); }
+  .about-author strong { color: var(--sage); display: block; font-weight: 500; font-size: 14px; }
+
+  /* FAQ */
+  .faq-section { background: var(--white); padding: 80px 5%; }
+  .faq-inner { max-width: 680px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid rgba(28,28,26,.09); padding: 18px 0; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-size: 15px; font-weight: 500; color: var(--ink);
+    cursor: pointer; display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 16px; user-select: none;
+  }
+  .toggle {
+    width: 24px; height: 24px; flex-shrink: 0;
+    border-radius: 50%; border: 1.5px solid var(--sage-mid);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--sage); font-size: 18px; line-height: 1;
+    transition: background .2s, border-color .2s;
+    margin-top: 0px;
+  }
+  .faq-item.open .toggle { background: var(--sage); border-color: var(--sage); color: #fff; }
+  .faq-a {
+    font-size: 14px; color: var(--ink2); line-height: 1.7;
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s ease, padding .25s ease;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding-top: 10px; }
+
+  /* CTA */
+  .cta-section { padding: 80px 5%; text-align: center; }
+  .cta-box {
+    max-width: 600px; margin: 0 auto;
+    background: var(--sage); border-radius: var(--radius-lg);
+    padding: 52px 44px; color: #fff;
+  }
+  .cta-box h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(24px, 3vw, 34px); line-height: 1.2; margin-bottom: 12px;
+  }
+  .cta-box h2 em { font-style: italic; opacity: .85; }
+  .cta-box p { font-size: 15px; opacity: .8; margin-bottom: 32px; line-height: 1.6; }
+  .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-cta-white {
+    background: #fff; color: var(--sage);
+    border: none; border-radius: 100px;
+    padding: 13px 28px; font-size: 15px; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: transform .15s, box-shadow .2s;
+  }
+  .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+  .btn-cta-outline {
+    background: transparent; color: #fff;
+    border: 1.5px solid rgba(255,255,255,.5); border-radius: 100px;
+    padding: 12px 24px; font-size: 15px;
+    cursor: pointer; text-decoration: none;
+    transition: border-color .2s, background .2s;
+  }
+  .btn-cta-outline:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,.4);
+    padding: 36px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px; font-size: 13px;
+  }
+  .footer-logo { font-family: 'DM Serif Display', serif; font-size: 16px; color: rgba(255,255,255,.75); }
+  .footer-links { display: flex; gap: 20px; }
+  footer a { color: rgba(255,255,255,.35); text-decoration: none; transition: color .2s; }
+  footer a:hover { color: var(--sage-mid); }
+
+  /* MOBILE STICKY */
+  .mobile-cta {
+    display: none; position: fixed;
+    bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--white); border-top: 1px solid rgba(28,28,26,.12);
+    padding: 12px 5%; gap: 10px;
+  }
+  .mobile-cta .btn-primary { flex: 1; justify-content: center; }
+  .mobile-cta .btn-ghost { padding: 13px 16px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 800px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 40px; padding-bottom: 40px; gap: 36px; }
+    .hero-photo { padding-top: 0; }
+    .photo-card { height: 300px; border-radius: var(--radius-lg); }
+    .photo-float { bottom: -16px; left: 12px; }
+    .steps { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; gap: 36px; }
+    .about-card { position: static; }
+    nav .nav-links { display: none; }
+    .mobile-cta { display: flex; }
+    body { padding-bottom: 76px; }
+  }
+  @media (min-width: 801px) { .mobile-cta { display: none !important; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Dr. Albert <span>Psiquiatra · CRM-SP</span></a>
+  <div class="nav-links">
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#faq">Dúvidas</a>
+    <a href="https://www.albertpsiquiatra.com.br/blog" target="_blank">Blog</a>
+    <a href="http://wa.me/5511971057112" class="btn-nav" target="_blank">Agendar consulta</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Consultas online para todo o Brasil</div>
+    <h1>Cuidar da <em>saúde mental</em> começa com a decisão certa</h1>
+    <p class="hero-sub">Dr. Albert Mojzeszowicz é psiquiatra formado pela USP, com residência no HC-FMRP. Atendimento particular online, focado em diagnóstico rigoroso e tratamento individualizado.</p>
+    <div class="hero-actions">
+      <a href="http://wa.me/5511971057112" class="btn-primary" target="_blank">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Agendar consulta
+      </a>
+      <a href="http://wa.me/5511971057112" class="btn-ghost" target="_blank">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.12 1.526 5.857L.057 23.882a.5.5 0 00.61.637l6.197-1.623A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.935 0-3.744-.52-5.293-1.426l-.38-.223-3.95 1.035 1.052-3.844-.248-.396A9.938 9.938 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><span class="trust-dot"></span>100% online</div>
+      <div class="trust-item"><span class="trust-dot"></span>Consulta particular</div>
+      <div class="trust-item"><span class="trust-dot"></span>NF para reembolso</div>
+      <div class="trust-item"><span class="trust-dot"></span>Atende fora do Brasil</div>
+    </div>
+  </div>
+
+  <div class="hero-photo">
+    <div class="photo-card">
+      <div class="photo-placeholder">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#4A7C59" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span>Inserir foto do Dr. Albert</span>
+      </div>
+    </div>
+    <div class="photo-float">
+      <p class="float-label">Formação</p>
+      <p class="float-val">Medicina — USP</p>
+      <p class="float-sub">Residência HC-FMRP · Preceptoria</p>
+    </div>
+  </div>
+</section>
+
+<!-- DESTRÓI OBJEÇÕES -->
+<section class="objections">
+  <p class="obj-label">Respondendo antes de você perguntar</p>
+  <div class="obj-grid">
+    <div class="obj-card reveal">
+      <span class="obj-icon">💳</span>
+      <p class="obj-q">Aceita convênio?</p>
+      <p class="obj-a">Não, mas forneço nota fiscal para você solicitar <strong>reembolso ao seu plano</strong>.</p>
+    </div>
+    <div class="obj-card reveal">
+      <span class="obj-icon">💰</span>
+      <p class="obj-q">Quanto custa?</p>
+      <p class="obj-a">Acompanhamento mensal: <strong>R$ 550/consulta</strong>. Avaliação isolada: R$ 670. Até 3× no crédito.</p>
+    </div>
+    <div class="obj-card reveal">
+      <span class="obj-icon">💻</span>
+      <p class="obj-q">Como funciona online?</p>
+      <p class="obj-a"><strong>Google Meet</strong>, link enviado pelo WhatsApp. Receitas eletrônicas ou pelo correio.</p>
+    </div>
+    <div class="obj-card reveal">
+      <span class="obj-icon">🌍</span>
+      <p class="obj-q">Moro fora do Brasil?</p>
+      <p class="obj-a">Sim, atende. <strong>Relatório em inglês</strong> para o médico local emitir a receita.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="how" id="como-funciona">
+  <span class="section-label reveal">Como funciona</span>
+  <h2 class="section-title reveal">Do primeiro contato ao início do tratamento</h2>
+  <div class="steps">
+    <div class="step reveal">
+      <p class="step-num">01</p>
+      <h3>Agendamento</h3>
+      <p>Entre em contato pelo WhatsApp ou formulário online. Escolhemos juntos o melhor horário para a sua consulta.</p>
+    </div>
+    <div class="step reveal">
+      <p class="step-num">02</p>
+      <h3>Consulta inicial</h3>
+      <p>Avaliação psiquiátrica completa por videochamada. Escuta ativa, diagnóstico rigoroso e sem pressa.</p>
+    </div>
+    <div class="step reveal">
+      <p class="step-num">03</p>
+      <h3>Tratamento contínuo</h3>
+      <p>Plano individualizado com retornos mensais e acompanhamento próximo até melhora significativa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONDIÇÕES -->
+<section class="conditions">
+  <div class="cond-inner">
+    <span class="section-label reveal">Áreas de atuação</span>
+    <h2 class="section-title reveal">Condições tratadas</h2>
+    <div class="cond-grid">
+      <div class="cond-item reveal">Depressão</div>
+      <div class="cond-item reveal">Ansiedade generalizada</div>
+      <div class="cond-item reveal">Síndrome do pânico</div>
+      <div class="cond-item reveal">TDAH em adultos</div>
+      <div class="cond-item reveal">Transtorno bipolar</div>
+      <div class="cond-item reveal">TOC</div>
+      <div class="cond-item reveal">Burnout</div>
+      <div class="cond-item reveal">Insônia crônica</div>
+      <div class="cond-item reveal">Fobias e TEPT</div>
+      <div class="cond-item reveal">Esquizofrenia</div>
+      <div class="cond-item reveal">Dependência química</div>
+      <div class="cond-item reveal">Outros transtornos</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="about" id="sobre">
+  <div class="about-content">
+    <span class="section-label reveal">Quem é o Dr. Albert</span>
+    <h2 class="section-title reveal">Formação sólida, olhar humano</h2>
+    <p class="about-text reveal">Albert Mojzeszowicz é psiquiatra com residência no Hospital das Clínicas da FMRP-USP, um dos maiores centros de referência em saúde mental do Brasil. Antes da medicina, cursou Administração Pública pela FGV e trabalhou como pesquisador na McKinsey — trajetória incomum que traz uma visão integrada: clínica, analítica e profundamente humana.</p>
+    <div class="credentials">
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Residência em Psiquiatria</strong> HC-FMRP / USP, Ribeirão Preto</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Preceptor de emergência psiquiátrica</strong> Fac. São Leopoldo Mandic, Campinas</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Graduação em Medicina</strong> FMRP / USP</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Graduação em Administração Pública</strong> EAESP / FGV</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Pesquisador</strong> McKinsey &amp; Co., São Paulo</span></div>
+    </div>
+  </div>
+  <div>
+    <div class="about-card reveal">
+      <span class="quote-mark">"</span>
+      <p class="about-quote">Saúde mental é a capacidade de viver sem que o passado ou o futuro prejudiquem o presente.</p>
+      <div class="about-author">
+        <strong>Dr. Albert Mojzeszowicz</strong>
+        Psiquiatra · CRM-SP
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <span class="section-label reveal">Antes de agendar</span>
+    <h2 class="section-title reveal">Dúvidas frequentes</h2>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">Quanto tempo dura o tratamento? <span class="toggle">+</span></div>
+      <div class="faq-a">A maioria dos pacientes apresenta melhora significativa após quatro a oito meses de acompanhamento regular. "Melhora" não é sinônimo de "cura" — muitos casos demandam cuidado a longo prazo. Não existe prazo garantido para a alta.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">Como funciona o pagamento? <span class="toggle">+</span></div>
+      <div class="faq-a">PIX, boleto bancário ou cartão de crédito em até 3×. Nota fiscal emitida ao final para reembolso junto ao plano de saúde.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">Posso levar acompanhante? <span class="toggle">+</span></div>
+      <div class="faq-a">Sim. O paciente tem direito a um acompanhante. Se não puderem estar no mesmo local, conectamos os três por videochamada via Google Meet.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">O que acontece se eu faltar? <span class="toggle">+</span></div>
+      <div class="faq-a">Imprevistos acontecem. Se conseguir avisar até 1 hora antes, remarcamos sem custo. Caso contrário, é cobrada metade do valor da consulta.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">Como chegam as receitas? <span class="toggle">+</span></div>
+      <div class="faq-a">Receitas comuns chegam com assinatura eletrônica pelo WhatsApp. Receitas especiais (azul e amarela) são enviadas pelo correio ao seu endereço.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <span class="section-label" style="text-align:center; display:block; margin-bottom:16px;">Próximo passo</span>
+  <div class="cta-box reveal">
+    <h2>Pronto para <em>começar</em>?</h2>
+    <p>A primeira consulta é uma avaliação completa. Sem pressa, sem julgamento — apenas um espaço seguro para você falar sobre o que está sentindo.</p>
+    <div class="cta-buttons">
+      <a href="https://www.albertpsiquiatra.com.br" class="btn-cta-white" target="_blank">Agendar online</a>
+      <a href="http://wa.me/5511971057112" class="btn-cta-outline" target="_blank">WhatsApp direto</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Dr. Albert Mojzeszowicz</span>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/dr.albertpsiquiatra/" target="_blank">Instagram</a>
+    <a href="https://www.tiktok.com/@dr.albertpsiquiatra" target="_blank">TikTok</a>
+    <a href="https://www.linkedin.com/in/albert-mojzeszowicz-67bbb76/" target="_blank">LinkedIn</a>
+    <a href="https://www.albertpsiquiatra.com.br/blog" target="_blank">Blog</a>
+  </div>
+  <span>© 2025 · Todos os direitos reservados</span>
+</footer>
+
+<!-- MOBILE STICKY -->
+<div class="mobile-cta">
+  <a href="https://www.albertpsiquiatra.com.br" class="btn-primary" target="_blank">Agendar consulta</a>
+  <a href="http://wa.me/5511971057112" class="btn-ghost" target="_blank">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.12 1.526 5.857L.057 23.882a.5.5 0 00.61.637l6.197-1.623A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.935 0-3.744-.52-5.293-1.426l-.38-.223-3.95 1.035 1.052-3.844-.248-.396A9.938 9.938 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+  </a>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 55);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => obs.observe(r));
+
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.toggle').textContent = '+';
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      el.querySelector('.toggle').textContent = '×';
+    }
+  }
+</script>
+</body>
+</html>
