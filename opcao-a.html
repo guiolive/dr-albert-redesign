@@ -94,23 +94,61 @@
   }
   .btn-nav:hover { background: var(--sage-dark); transform: translateY(-1px); }
 
-  /* MEGA MENU */
-  .nav-dropdown {
-    display: none; position: absolute; top: calc(100% + 8px); left: 0;
-    background: var(--white); border-radius: var(--radius-lg);
-    box-shadow: 0 12px 48px rgba(28,28,26,.12);
-    border: 1px solid rgba(28,28,26,.06);
-    padding: 24px 28px; min-width: 240px; z-index: 200;
+  /* SIDE PANEL MENU (Brightside-style) */
+  .panel-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(28,28,26,.35);
+    backdrop-filter: blur(4px);
+    opacity: 0; transition: opacity .3s;
   }
-  .nav-item:hover .nav-dropdown { display: block; }
-  .dd-label { font-size: 10px; font-weight: 600; color: var(--sage); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
-  .dd-link {
-    display: block; font-size: 14px; color: var(--ink2); text-decoration: none;
-    padding: 8px 0; border-bottom: 1px solid rgba(28,28,26,.05);
+  .panel-overlay.open { display: block; opacity: 1; }
+  .side-panel {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 420px; max-width: 85vw;
+    background: var(--white);
+    z-index: 301;
+    transform: translateX(-100%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    overflow-y: auto;
+    box-shadow: 4px 0 32px rgba(28,28,26,.1);
+  }
+  .panel-overlay.open .side-panel { transform: translateX(0); }
+  .sp-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px;
+    border-bottom: 1px solid rgba(28,28,26,.06);
+  }
+  .sp-close {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(28,28,26,.1);
+    background: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: var(--ink2);
+    transition: background .15s;
+  }
+  .sp-close:hover { background: var(--bg); }
+  .sp-section { padding: 24px 28px; }
+  .sp-section + .sp-section { border-top: 1px solid rgba(28,28,26,.06); }
+  .sp-label { font-size: 11px; font-weight: 600; color: var(--sage); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px; }
+  .sp-link {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 17px; color: var(--ink); text-decoration: none;
+    padding: 12px 0; cursor: pointer;
+    border-bottom: 1px solid rgba(28,28,26,.04);
     transition: color .15s;
   }
-  .dd-link:last-child { border-bottom: none; }
-  .dd-link:hover { color: var(--sage); }
+  .sp-link:last-child { border-bottom: none; }
+  .sp-link:hover { color: var(--sage); }
+  .sp-link-arrow { font-size: 14px; color: var(--ink3); }
+  .sp-cta {
+    display: block; background: var(--sage); color: #fff;
+    border: none; border-radius: var(--radius);
+    padding: 14px; font-size: 15px; font-weight: 500;
+    cursor: pointer; text-align: center; width: 100%;
+    transition: background .2s;
+    text-decoration: none; margin-top: 8px;
+  }
+  .sp-cta:hover { background: var(--sage-dark); }
 
   /* PAGES */
   .page { display: none; }
@@ -530,25 +568,38 @@
 <nav>
   <a class="nav-logo" onclick="showPage('home')">Dr. Albert <small>Psiquiatra</small></a>
   <div class="nav-links">
-    <div class="nav-item" onclick="showPage('home')">
-      Saiba mais
-      <div class="nav-dropdown">
-        <div class="dd-label">Como posso ajudar?</div>
-        <a class="dd-link" onclick="scrollToEl('especialidades')">Condições tratadas</a>
-        <a class="dd-link" onclick="scrollToEl('como-funciona')">Como funciona</a>
-        <a class="dd-link" onclick="scrollToEl('sobre')">Sobre o Dr. Albert</a>
-        <a class="dd-link" onclick="scrollToEl('valores')">Valores</a>
-        <div style="margin-top:14px"><div class="dd-label">Modalidades</div></div>
-        <a class="dd-link" onclick="scrollToEl('modalidades')">Presencial</a>
-        <a class="dd-link" onclick="scrollToEl('modalidades')">Telemedicina</a>
-      </div>
-    </div>
+    <a class="nav-item" onclick="openPanel()">Saiba mais</a>
     <a class="nav-item" onclick="showPage('blog')">Blog</a>
     <a class="nav-item" onclick="showPage('faq-page')">Dúvidas</a>
     <a class="nav-item" onclick="showPage('agendamento')">Agendamento</a>
     <a href="http://wa.me/5511971057112" class="btn-nav" target="_blank">Agendar consulta</a>
   </div>
 </nav>
+
+<!-- SIDE PANEL -->
+<div class="panel-overlay" id="panel-overlay" onclick="closePanel()">
+  <div class="side-panel" onclick="event.stopPropagation()">
+    <div class="sp-header">
+      <span style="font-family:'DM Serif Display',serif; font-size:18px;">Menu</span>
+      <button class="sp-close" onclick="closePanel()">&times;</button>
+    </div>
+    <div class="sp-section">
+      <div class="sp-label">O que você procura?</div>
+      <a class="sp-link" onclick="closePanel();scrollToEl('especialidades')">Condições tratadas <span class="sp-link-arrow">&rsaquo;</span></a>
+      <a class="sp-link" onclick="closePanel();scrollToEl('como-funciona')">Como funciona <span class="sp-link-arrow">&rsaquo;</span></a>
+      <a class="sp-link" onclick="closePanel();scrollToEl('valores')">Valores e pagamento <span class="sp-link-arrow">&rsaquo;</span></a>
+      <a class="sp-link" onclick="closePanel();scrollToEl('sobre')">Sobre o Dr. Albert <span class="sp-link-arrow">&rsaquo;</span></a>
+    </div>
+    <div class="sp-section">
+      <div class="sp-label">Conteúdo</div>
+      <a class="sp-link" onclick="closePanel();showPage('blog')">Mini-curso de ansiedade <span class="sp-link-arrow">&rsaquo;</span></a>
+      <a class="sp-link" onclick="closePanel();showPage('faq-page')">Dúvidas frequentes <span class="sp-link-arrow">&rsaquo;</span></a>
+    </div>
+    <div class="sp-section">
+      <a href="http://wa.me/5511971057112" class="sp-cta" target="_blank">Agendar pelo WhatsApp</a>
+    </div>
+  </div>
+</div>
 
 <!-- ====== HOME ====== -->
 <div class="page active" id="page-home">
@@ -906,15 +957,9 @@
       <div class="form-type-card"><h4>Inicial — 50 min</h4><p>Avaliação clínica completa, anamnese, plano terapêutico.</p></div>
       <div class="form-type-card"><h4>Retorno — 30 min</h4><p>Acompanhamento, ajuste de medicação, revisão de metas.</p></div>
     </div>
-    <div class="form-group"><label>Tipo de consulta</label><select><option value="">Selecione...</option><option>Inicial — Presencial</option><option>Inicial — Telemedicina</option><option>Retorno — Presencial</option><option>Retorno — Telemedicina</option></select></div>
+    <div class="form-group"><label>Tipo de consulta</label><select><option value="">Selecione...</option><option>Consulta inicial</option><option>Retorno</option></select></div>
     <div class="form-group"><label>Nome completo</label><input type="text" placeholder="Como consta no documento"></div>
-    <div class="form-group"><label>E-mail</label><input type="email" placeholder="seu@email.com"></div>
     <div class="form-group"><label>WhatsApp</label><input type="tel" placeholder="(00) 00000-0000"></div>
-    <div class="form-section-title">Contexto clínico (opcional)</div>
-    <div class="form-group"><label>Motivo principal</label><select><option value="">Selecione...</option><option>Ansiedade</option><option>Depressão</option><option>TDAH</option><option>Transtorno bipolar</option><option>Insônia</option><option>Burnout</option><option>Outro</option></select></div>
-    <div class="form-group"><label>Acompanhamento psiquiátrico anterior?</label><select><option value="">Selecione...</option><option>Sim, em acompanhamento</option><option>Sim, mas parei</option><option>Nunca fiz</option></select></div>
-    <div class="form-group"><label>Informações adicionais</label><textarea rows="3" placeholder="Algo relevante para a primeira consulta..."></textarea></div>
-    <div class="form-group"><label>Como nos encontrou?</label><select><option value="">Selecione...</option><option>Indicação médica</option><option>Indicação de paciente</option><option>Instagram</option><option>Google</option><option>LinkedIn</option><option>Outro</option></select></div>
     <a href="http://wa.me/5511971057112" class="btn-primary" target="_blank" style="width:100%; justify-content:center; margin-top:8px; font-size:16px;">Solicitar agendamento</a>
     <p class="form-privacy">Seus dados são protegidos pela LGPD e não serão compartilhados com terceiros.</p>
   </div>
@@ -937,6 +982,17 @@
 </div>
 
 <script>
+  // Side panel
+  function openPanel() {
+    document.getElementById('panel-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePanel() {
+    document.getElementById('panel-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const page = document.getElementById('page-' + id);
