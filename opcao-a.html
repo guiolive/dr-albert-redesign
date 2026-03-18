@@ -19,50 +19,98 @@
     --sage-dark: #3a6347;
     --sage-light:#E8F0E9;
     --sage-mid:  #A8C5AD;
+    --sage-xl:   #F2F8F4;
+    --peach:     #FFF0E8;
+    --peach-mid: #E8C4B0;
+    --lavender:  #EDE8F5;
+    --lavender-mid:#B8A8D4;
+    --sky:       #E4F0F8;
+    --sky-mid:   #8ABBD4;
     --accent:    #C47C5A;
     --radius:    12px;
     --radius-lg: 20px;
+    --radius-xl: 28px;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
+    background: var(--white);
     color: var(--ink);
     font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
+  /* ANNOUNCEMENT BAR */
+  .announce {
+    background: var(--sage-dark);
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .announce a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+  .announce-close {
+    position: absolute; right: 20px;
+    background: none; border: none; color: rgba(255,255,255,.6);
+    font-size: 18px; cursor: pointer; line-height: 1;
+  }
+
   /* NAV */
   nav {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(245,242,237,.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(74,124,89,.12);
+    background: rgba(253,252,250,.96);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(28,28,26,.06);
     padding: 0 5%;
     display: flex; align-items: center; justify-content: space-between;
     height: 64px;
   }
   .nav-logo {
     font-family: 'DM Serif Display', serif;
-    font-size: 18px; color: var(--ink);
+    font-size: 20px; color: var(--ink);
     text-decoration: none; cursor: pointer;
-    display: flex; flex-direction: column; line-height: 1.1;
+    display: flex; align-items: baseline; gap: 8px;
   }
-  .nav-logo span { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 300; color: var(--ink3); letter-spacing: .12em; text-transform: uppercase; }
-  .nav-links { display: flex; gap: 24px; align-items: center; }
-  .nav-links a { font-size: 14px; color: var(--ink2); text-decoration: none; transition: color .2s; cursor: pointer; }
-  .nav-links a:hover { color: var(--sage); }
+  .nav-logo small { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 400; color: var(--ink3); letter-spacing: .06em; }
+  .nav-links { display: flex; gap: 6px; align-items: center; }
+  .nav-item {
+    font-size: 14px; color: var(--ink2); text-decoration: none; cursor: pointer;
+    padding: 8px 14px; border-radius: 8px;
+    transition: background .15s, color .15s;
+    position: relative;
+  }
+  .nav-item:hover { background: var(--sage-light); color: var(--sage); }
   .btn-nav {
     background: var(--sage); color: #fff;
     border: none; border-radius: 100px;
-    padding: 10px 22px; font-size: 14px; font-weight: 500;
+    padding: 10px 24px; font-size: 14px; font-weight: 500;
     cursor: pointer; text-decoration: none;
     transition: background .2s, transform .15s;
-    white-space: nowrap;
+    white-space: nowrap; margin-left: 8px;
   }
   .btn-nav:hover { background: var(--sage-dark); transform: translateY(-1px); }
+
+  /* MEGA MENU */
+  .nav-dropdown {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--white); border-radius: var(--radius-lg);
+    box-shadow: 0 12px 48px rgba(28,28,26,.12);
+    border: 1px solid rgba(28,28,26,.06);
+    padding: 24px 28px; min-width: 240px; z-index: 200;
+  }
+  .nav-item:hover .nav-dropdown { display: block; }
+  .dd-label { font-size: 10px; font-weight: 600; color: var(--sage); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+  .dd-link {
+    display: block; font-size: 14px; color: var(--ink2); text-decoration: none;
+    padding: 8px 0; border-bottom: 1px solid rgba(28,28,26,.05);
+    transition: color .15s;
+  }
+  .dd-link:last-child { border-bottom: none; }
+  .dd-link:hover { color: var(--sage); }
 
   /* PAGES */
   .page { display: none; }
@@ -70,293 +118,281 @@
 
   /* HERO */
   .hero {
-    min-height: calc(100vh - 64px);
+    background: var(--sage-xl);
+    padding: 80px 5% 0;
     display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 48px;
-    padding: 64px 5% 0;
-    align-items: center;
-    position: relative;
+    grid-template-columns: 1fr 440px;
+    gap: 56px;
+    align-items: end;
     overflow: hidden;
+    min-height: calc(100vh - 100px);
   }
-  .hero::before {
-    content: '';
-    position: absolute; top: -80px; right: 380px;
-    width: 500px; height: 500px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(74,124,89,.07) 0%, transparent 70%);
-    pointer-events: none;
+  .hero-content { max-width: 580px; padding-bottom: 80px; }
+  .hero-eyebrow {
+    font-size: 12px; font-weight: 600; color: var(--sage);
+    letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: 20px;
   }
-  .hero-content { max-width: 560px; }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--sage-light); color: var(--sage);
-    border-radius: 100px; padding: 6px 14px;
-    font-size: 12px; font-weight: 500; letter-spacing: .04em;
-    margin-bottom: 28px;
-  }
-  .hero-badge::before {
-    content: ''; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--sage); flex-shrink: 0;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(.8)} }
   .hero h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(34px, 4.5vw, 54px);
-    line-height: 1.1; color: var(--ink); margin-bottom: 20px;
+    font-size: clamp(38px, 5vw, 58px);
+    line-height: 1.08; color: var(--ink); margin-bottom: 24px;
   }
   .hero h1 em { font-style: italic; color: var(--sage); }
   .hero-sub {
-    font-size: 17px; font-weight: 300;
-    color: var(--ink2); line-height: 1.65;
+    font-size: 18px; font-weight: 300;
+    color: var(--ink2); line-height: 1.7;
     max-width: 480px; margin-bottom: 36px;
   }
-  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+  .hero-checks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+  .hero-check {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 15px; color: var(--ink2);
+  }
+  .hero-check svg { color: var(--sage); flex-shrink: 0; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn-primary {
     background: var(--sage); color: #fff;
     border: none; border-radius: 100px;
-    padding: 14px 28px; font-size: 15px; font-weight: 500;
+    padding: 16px 32px; font-size: 16px; font-weight: 500;
     cursor: pointer; text-decoration: none;
     transition: background .2s, transform .15s, box-shadow .2s;
-    display: inline-flex; align-items: center; gap: 8px;
+    display: inline-flex; align-items: center; gap: 10px;
   }
-  .btn-primary:hover { background: var(--sage-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,124,89,.25); }
+  .btn-primary:hover { background: var(--sage-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(74,124,89,.25); }
   .btn-ghost {
     background: var(--white); color: var(--ink);
-    border: 1.5px solid rgba(28,28,26,.15); border-radius: 100px;
-    padding: 13px 24px; font-size: 15px; font-weight: 400;
+    border: 1.5px solid rgba(28,28,26,.12); border-radius: 100px;
+    padding: 15px 28px; font-size: 16px; font-weight: 400;
     cursor: pointer; text-decoration: none;
     transition: border-color .2s, transform .15s;
-    display: inline-flex; align-items: center; gap: 8px;
+    display: inline-flex; align-items: center; gap: 10px;
   }
   .btn-ghost:hover { border-color: var(--sage); transform: translateY(-2px); }
-  .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; }
-  .trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--ink3); }
-  .trust-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sage-mid); flex-shrink: 0; }
 
-  /* HERO CARD */
-  .hero-card {
-    background: var(--white); border-radius: var(--radius-lg);
-    padding: 28px; border: 1px solid rgba(74,124,89,.12);
-    box-shadow: 0 8px 32px rgba(28,28,26,.06);
+  /* HERO PHOTO */
+  .hero-photo { position: relative; align-self: end; }
+  .hero-photo-img {
+    width: 100%; height: 520px;
+    background: linear-gradient(160deg, #d4e8d8, #b8d4be);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
   }
-  .hc-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-  .hc-avatar {
-    width: 56px; height: 56px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--sage-light), var(--sage-mid));
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--sage);
+  .hero-photo-img svg { opacity: .3; }
+  .hero-photo-img span { font-size: 12px; color: var(--sage); opacity: .6; }
+  .hero-float {
+    position: absolute; bottom: 24px; left: -20px;
+    background: var(--white); border-radius: var(--radius);
+    padding: 16px 20px;
+    box-shadow: 0 6px 28px rgba(28,28,26,.1);
   }
-  .hc-name { font-weight: 600; font-size: 15px; }
-  .hc-title { font-size: 12px; color: var(--ink3); }
-  .hc-status { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .hc-status-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink2); }
-  .hc-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .hc-dot-green { background: #22c55e; }
-  .hc-dot-blue { background: #3b82f6; }
-  .hc-dot-amber { background: #f59e0b; }
-  .hc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .hc-tag {
-    font-size: 11px; padding: 4px 10px; border-radius: 20px;
-    background: var(--sage-light); color: var(--sage); font-weight: 500;
-  }
+  .hero-float-label { font-size: 10px; color: var(--ink3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 3px; }
+  .hero-float-val { font-size: 15px; font-weight: 600; }
+  .hero-float-sub { font-size: 12px; color: var(--ink3); }
 
-  /* SHARED SECTION STYLES */
-  .section-label { font-size: 11px; font-weight: 500; color: var(--sage); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+  /* SHARED */
+  .section-label { font-size: 12px; font-weight: 600; color: var(--sage); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 14px; display: block; }
   .section-title {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(26px, 3.5vw, 38px);
-    line-height: 1.15; color: var(--ink); margin-bottom: 20px; max-width: 520px;
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.12; color: var(--ink); margin-bottom: 16px;
   }
-  .section-desc { font-size: 15px; color: var(--ink2); line-height: 1.7; max-width: 560px; margin-bottom: 40px; }
+  .section-desc { font-size: 17px; color: var(--ink2); line-height: 1.7; max-width: 580px; }
+  .section-center { text-align: center; }
+  .section-center .section-desc { margin: 0 auto 48px; }
+  .section-center .section-title { margin: 0 auto 16px; max-width: 640px; }
 
-  /* ABOUT / APPROACH */
-  .approach { background: var(--white); padding: 80px 5%; border-top: 1px solid rgba(28,28,26,.07); }
-  .approach-inner { max-width: 960px; margin: 0 auto; }
-  .approach-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
-  .appr-card {
-    background: var(--bg); border-radius: var(--radius-lg); padding: 28px 22px;
-    border: 1px solid rgba(28,28,26,.05);
-    transition: transform .2s, box-shadow .2s;
+  /* VALUE PROPS — 4 col icons */
+  .value-props { padding: 72px 5%; background: var(--white); border-bottom: 1px solid rgba(28,28,26,.06); }
+  .vp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; max-width: 1040px; margin: 0 auto; }
+  .vp-item { text-align: center; }
+  .vp-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 16px; font-size: 24px;
   }
-  .appr-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(28,28,26,.06); }
-  .appr-letter {
-    font-family: 'DM Serif Display', serif; font-size: 28px;
-    color: var(--sage); margin-bottom: 12px; display: block;
-  }
-  .appr-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-  .appr-card p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+  .vp-icon-sage { background: var(--sage-light); color: var(--sage); }
+  .vp-icon-peach { background: var(--peach); color: var(--accent); }
+  .vp-icon-lavender { background: var(--lavender); color: #6D28D9; }
+  .vp-icon-sky { background: var(--sky); color: #2563EB; }
+  .vp-item h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .vp-item p { font-size: 14px; color: var(--ink2); line-height: 1.55; }
 
-  /* SPECIALTIES */
-  .specialties { padding: 80px 5%; max-width: 960px; margin: 0 auto; }
-  .spec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .spec-card {
-    background: var(--white); border-radius: var(--radius-lg); padding: 28px;
-    border: 1px solid rgba(28,28,26,.07);
-    transition: transform .2s, box-shadow .2s;
+  /* SERVICES — Brightside-style colored cards */
+  .services { padding: 100px 5%; }
+  .services-inner { max-width: 1040px; margin: 0 auto; }
+  .srv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+  .srv-card {
+    border-radius: var(--radius-xl); padding: 36px 28px;
+    transition: transform .25s, box-shadow .25s;
+    position: relative; overflow: hidden;
   }
-  .spec-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(28,28,26,.06); }
-  .spec-num { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--sage-mid); line-height: 1; margin-bottom: 12px; }
-  .spec-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-  .spec-card p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+  .srv-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(28,28,26,.08); }
+  .srv-card-sage { background: var(--sage-light); }
+  .srv-card-peach { background: var(--peach); }
+  .srv-card-lavender { background: var(--lavender); }
+  .srv-card-sky { background: var(--sky); }
+  .srv-badge {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 6px;
+    background: rgba(28,28,26,.06); color: var(--ink2);
+    margin-bottom: 14px;
+  }
+  .srv-badge-green { background: var(--sage); color: #fff; }
+  .srv-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; font-size: 22px;
+  }
+  .srv-icon-sage { background: rgba(74,124,89,.15); color: var(--sage); }
+  .srv-icon-peach { background: rgba(196,124,90,.15); color: var(--accent); }
+  .srv-icon-lav { background: rgba(109,40,217,.1); color: #6D28D9; }
+  .srv-icon-sky { background: rgba(37,99,235,.1); color: #2563EB; }
+  .srv-card h3 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 10px; }
+  .srv-card p { font-size: 14px; color: var(--ink2); line-height: 1.6; margin-bottom: 16px; }
+  .srv-link { font-size: 13px; font-weight: 500; color: var(--sage-dark); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
-  /* MODALITIES */
-  .modalities { background: var(--white); padding: 80px 5%; border-top: 1px solid rgba(28,28,26,.07); }
-  .mod-inner { max-width: 960px; margin: 0 auto; }
-  .mod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
-  .mod-card {
-    border-radius: var(--radius-lg); padding: 36px 32px;
-    border: 1px solid rgba(28,28,26,.07);
+  /* STATS */
+  .stats { padding: 80px 5%; background: var(--sage-xl); }
+  .stats-inner { max-width: 960px; margin: 0 auto; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 6vw, 72px);
+    line-height: 1; color: var(--sage);
+    margin-bottom: 12px;
   }
-  .mod-card-dark { background: var(--ink); color: #fff; border-color: transparent; }
-  .mod-card-dark .mod-tag { background: rgba(255,255,255,.1); color: rgba(255,255,255,.8); }
-  .mod-card-dark .mod-feat { color: rgba(255,255,255,.6); }
-  .mod-card-dark .mod-feat::before { background: var(--sage-mid); }
-  .mod-card-dark h3 { color: #fff; }
-  .mod-card-dark p { color: rgba(255,255,255,.6); }
-  .mod-card-light { background: var(--bg); }
-  .mod-tag {
-    display: inline-block; font-size: 11px; font-weight: 500;
-    padding: 4px 12px; border-radius: 20px;
-    background: var(--sage-light); color: var(--sage);
-    margin-bottom: 16px;
-  }
-  .mod-card h3 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 8px; }
-  .mod-card > p { font-size: 14px; color: var(--ink2); line-height: 1.65; margin-bottom: 20px; }
-  .mod-feats { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-  .mod-feat { font-size: 13px; color: var(--ink2); display: flex; align-items: center; gap: 10px; }
-  .mod-feat::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
-  .btn-white {
-    background: #fff; color: var(--sage); border: none; border-radius: 100px;
-    padding: 12px 24px; font-size: 14px; font-weight: 500;
-    cursor: pointer; text-decoration: none; display: inline-block;
-    transition: transform .15s, box-shadow .2s;
-  }
-  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.12); }
-
-  /* OBJECTIONS */
-  .objections { padding: 56px 5%; border-top: 1px solid rgba(28,28,26,.07); }
-  .obj-label {
-    font-size: 11px; font-weight: 500; color: var(--ink3);
-    letter-spacing: .1em; text-transform: uppercase;
-    text-align: center; margin-bottom: 28px;
-  }
-  .obj-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 14px; max-width: 960px; margin: 0 auto;
-  }
-  .obj-card { background: var(--white); border-radius: var(--radius); padding: 20px 22px; }
-  .obj-icon { font-size: 20px; margin-bottom: 8px; display: block; }
-  .obj-q { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
-  .obj-a { font-size: 13px; color: var(--ink2); line-height: 1.55; }
-  .obj-a strong { color: var(--sage); font-weight: 500; }
+  .stat-label { font-size: 15px; color: var(--ink2); line-height: 1.5; max-width: 240px; margin: 0 auto; }
 
   /* HOW IT WORKS */
-  .how { padding: 80px 5%; max-width: 960px; margin: 0 auto; }
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .step {
-    padding: 28px; background: var(--white); border-radius: var(--radius-lg);
-    border: 1px solid rgba(28,28,26,.07);
-    transition: transform .2s, box-shadow .2s;
+  .how { padding: 100px 5%; }
+  .how-inner { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .how-visual {
+    background: var(--sage-light); border-radius: var(--radius-xl);
+    padding: 40px; min-height: 480px;
+    display: flex; flex-direction: column; gap: 16px;
   }
-  .step:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,28,26,.08); }
-  .step-num-big {
-    font-family: 'DM Serif Display', serif; font-size: 44px;
-    color: var(--sage-mid); line-height: 1; margin-bottom: 14px;
+  .how-msg {
+    background: var(--white); border-radius: var(--radius-lg); padding: 16px 20px;
+    box-shadow: 0 2px 12px rgba(28,28,26,.05);
   }
-  .step h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
-  .step p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+  .how-msg-label { font-size: 11px; color: var(--ink3); margin-bottom: 4px; }
+  .how-msg-text { font-size: 14px; color: var(--ink); line-height: 1.5; }
+  .how-msg-green { background: var(--sage); color: #fff; align-self: flex-end; }
+  .how-msg-green .how-msg-label { color: rgba(255,255,255,.6); }
+  .how-msg-green .how-msg-text { color: #fff; }
+  .how-steps { display: flex; flex-direction: column; gap: 32px; }
+  .how-step { display: flex; gap: 16px; }
+  .how-step-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--sage-light); color: var(--sage);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px; flex-shrink: 0;
+  }
+  .how-step h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .how-step p { font-size: 14px; color: var(--ink2); line-height: 1.6; }
 
   /* ABOUT */
-  .about {
-    padding: 80px 5%; max-width: 960px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start;
-  }
-  .about-text { font-size: 15px; color: var(--ink2); line-height: 1.75; margin-bottom: 28px; }
-  .credentials { display: flex; flex-direction: column; gap: 10px; }
-  .cred { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
-  .cred-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sage); flex-shrink: 0; margin-top: 7px; }
+  .about { padding: 100px 5%; background: var(--bg); }
+  .about-inner { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .about-text { font-size: 16px; color: var(--ink2); line-height: 1.75; margin-bottom: 32px; }
+  .credentials { display: flex; flex-direction: column; gap: 12px; }
+  .cred { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; }
+  .cred-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); flex-shrink: 0; margin-top: 8px; }
   .cred-text { color: var(--ink2); line-height: 1.5; }
-  .cred-text strong { color: var(--ink); font-weight: 500; display: block; }
+  .cred-text strong { color: var(--ink); font-weight: 600; display: block; }
   .about-card {
-    background: var(--sage-light); border-radius: var(--radius-lg);
-    padding: 32px; position: sticky; top: 88px;
+    background: var(--sage-light); border-radius: var(--radius-xl);
+    padding: 40px; position: sticky; top: 88px;
   }
   .about-quote {
-    font-family: 'DM Serif Display', serif; font-size: 19px; font-style: italic;
-    line-height: 1.55; color: var(--ink); margin-bottom: 24px;
+    font-family: 'DM Serif Display', serif; font-size: 22px; font-style: italic;
+    line-height: 1.5; color: var(--ink); margin-bottom: 28px;
   }
-  .quote-mark { font-size: 40px; color: var(--sage-mid); line-height: .6; display: block; margin-bottom: 8px; }
-  .about-author { font-size: 13px; color: var(--ink3); }
-  .about-author strong { color: var(--sage); display: block; font-weight: 500; font-size: 14px; }
+  .quote-mark { font-size: 48px; color: var(--sage-mid); line-height: .6; display: block; margin-bottom: 10px; }
+  .about-author { font-size: 14px; color: var(--ink3); }
+  .about-author strong { color: var(--sage); display: block; font-weight: 600; font-size: 15px; }
 
-  /* BLOG PREVIEW */
-  .blog-preview { background: var(--white); padding: 80px 5%; border-top: 1px solid rgba(28,28,26,.07); }
-  .blog-inner { max-width: 960px; margin: 0 auto; }
-  .blog-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
-  .blog-card {
-    background: var(--bg); border-radius: var(--radius-lg); padding: 24px;
+  /* TESTIMONIALS */
+  .testimonials { padding: 100px 5%; }
+  .test-inner { max-width: 960px; margin: 0 auto; }
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+  .test-card {
+    background: var(--bg); border-radius: var(--radius-xl); padding: 32px;
     border: 1px solid rgba(28,28,26,.05);
+  }
+  .test-stars { color: #F59E0B; font-size: 14px; letter-spacing: 2px; margin-bottom: 14px; }
+  .test-text { font-size: 14px; color: var(--ink2); line-height: 1.65; font-style: italic; margin-bottom: 16px; }
+  .test-author { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .test-meta { font-size: 12px; color: var(--ink3); }
+
+  /* BLOG */
+  .blog-preview { padding: 100px 5%; background: var(--sage-xl); }
+  .blog-inner { max-width: 1040px; margin: 0 auto; }
+  .blog-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+  .blog-card {
+    background: var(--white); border-radius: var(--radius-xl); padding: 28px;
+    border: 1px solid rgba(28,28,26,.06);
     cursor: pointer; transition: transform .2s, box-shadow .2s;
   }
-  .blog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(28,28,26,.06); }
-  .blog-card-num { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--sage-mid); margin-bottom: 10px; }
-  .blog-card h3 { font-size: 14px; font-weight: 500; margin-bottom: 8px; line-height: 1.4; }
-  .blog-card p { font-size: 12px; color: var(--ink3); }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(28,28,26,.06); }
+  .blog-card-num { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--sage-mid); margin-bottom: 12px; }
+  .blog-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 10px; line-height: 1.4; }
+  .blog-card p { font-size: 13px; color: var(--ink3); }
 
   /* FAQ */
-  .faq-section { background: var(--white); padding: 80px 5%; }
-  .faq-inner { max-width: 680px; margin: 0 auto; }
-  .faq-item { border-bottom: 1px solid rgba(28,28,26,.09); padding: 18px 0; }
+  .faq-section { padding: 100px 5%; }
+  .faq-inner { max-width: 700px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid rgba(28,28,26,.08); padding: 20px 0; }
   .faq-item:last-child { border-bottom: none; }
   .faq-q {
-    font-size: 15px; font-weight: 500; color: var(--ink);
+    font-size: 16px; font-weight: 500; color: var(--ink);
     cursor: pointer; display: flex; justify-content: space-between;
     align-items: flex-start; gap: 16px; user-select: none;
   }
   .toggle {
-    width: 24px; height: 24px; flex-shrink: 0;
-    border-radius: 50%; border: 1.5px solid var(--sage-mid);
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 50%; border: 2px solid var(--sage-mid);
     display: flex; align-items: center; justify-content: center;
     color: var(--sage); font-size: 18px; line-height: 1;
-    transition: background .2s, border-color .2s;
+    transition: all .2s;
   }
   .faq-item.open .toggle { background: var(--sage); border-color: var(--sage); color: #fff; }
   .faq-a {
-    font-size: 14px; color: var(--ink2); line-height: 1.7;
+    font-size: 15px; color: var(--ink2); line-height: 1.7;
     max-height: 0; overflow: hidden;
     transition: max-height .35s ease, padding .25s ease;
   }
-  .faq-item.open .faq-a { max-height: 200px; padding-top: 10px; }
+  .faq-item.open .faq-a { max-height: 200px; padding-top: 12px; }
 
-  /* CTA */
-  .cta-section { padding: 80px 5%; text-align: center; }
+  /* CTA FINAL */
+  .cta-final { padding: 100px 5%; text-align: center; }
   .cta-box {
-    max-width: 600px; margin: 0 auto;
-    background: var(--sage); border-radius: var(--radius-lg);
-    padding: 52px 44px; color: #fff;
+    max-width: 640px; margin: 0 auto;
+    background: var(--sage); border-radius: var(--radius-xl);
+    padding: 64px 48px; color: #fff;
   }
   .cta-box h2 {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(24px, 3vw, 34px); line-height: 1.2; margin-bottom: 12px;
+    font-size: clamp(28px, 3.5vw, 40px); line-height: 1.15; margin-bottom: 14px;
   }
   .cta-box h2 em { font-style: italic; opacity: .85; }
-  .cta-box p { font-size: 15px; opacity: .8; margin-bottom: 32px; line-height: 1.6; }
-  .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .cta-box p { font-size: 16px; opacity: .8; margin-bottom: 36px; line-height: 1.65; }
+  .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
   .btn-cta-white {
     background: #fff; color: var(--sage);
     border: none; border-radius: 100px;
-    padding: 13px 28px; font-size: 15px; font-weight: 500;
+    padding: 16px 32px; font-size: 16px; font-weight: 500;
     cursor: pointer; text-decoration: none;
     transition: transform .15s, box-shadow .2s;
   }
   .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
   .btn-cta-outline {
     background: transparent; color: #fff;
-    border: 1.5px solid rgba(255,255,255,.5); border-radius: 100px;
-    padding: 12px 24px; font-size: 15px;
+    border: 1.5px solid rgba(255,255,255,.45); border-radius: 100px;
+    padding: 15px 28px; font-size: 16px;
     cursor: pointer; text-decoration: none;
     transition: border-color .2s, background .2s;
   }
@@ -365,106 +401,132 @@
   /* FOOTER */
   footer {
     background: var(--ink); color: rgba(255,255,255,.4);
-    padding: 48px 5% 36px;
+    padding: 56px 5% 36px;
   }
-  .footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 32px; margin-bottom: 32px; }
-  .footer-logo { font-family: 'DM Serif Display', serif; font-size: 18px; color: rgba(255,255,255,.75); }
-  .footer-logo-sub { font-size: 12px; color: rgba(255,255,255,.3); margin-top: 4px; }
+  .footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; max-width: 1040px; margin-left: auto; margin-right: auto; }
+  .footer-logo { font-family: 'DM Serif Display', serif; font-size: 20px; color: rgba(255,255,255,.8); }
+  .footer-logo-sub { font-size: 12px; color: rgba(255,255,255,.3); margin-top: 6px; }
   .footer-col { display: flex; flex-direction: column; gap: 8px; }
-  .footer-col-title { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 4px; }
+  .footer-col-title { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 6px; }
   .footer-links { display: flex; flex-direction: column; gap: 6px; }
-  footer a { color: rgba(255,255,255,.35); text-decoration: none; transition: color .2s; font-size: 13px; }
+  footer a { color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; font-size: 14px; }
   footer a:hover { color: var(--sage-mid); }
-  .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; max-width: 1040px; margin: 0 auto; }
+
+  /* MOBILE STICKY */
+  .mobile-cta {
+    display: none; position: fixed;
+    bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--white); border-top: 1px solid rgba(28,28,26,.1);
+    padding: 12px 5%; gap: 10px;
+    box-shadow: 0 -4px 20px rgba(28,28,26,.08);
+  }
+  .mobile-cta .btn-primary { flex: 1; justify-content: center; font-size: 15px; padding: 14px 24px; }
 
   /* BLOG PAGE */
   .blog-page { padding: 60px 5%; max-width: 960px; margin: 0 auto; }
-  .blog-hero {
-    background: var(--sage-light); border-radius: var(--radius-lg);
-    padding: 40px 36px; margin-bottom: 40px;
+  .blog-hero-card {
+    background: var(--sage-light); border-radius: var(--radius-xl);
+    padding: 44px 40px; margin-bottom: 44px;
   }
-  .blog-hero-label { font-size: 11px; font-weight: 500; color: var(--sage); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
-  .blog-hero h2 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 10px; }
-  .blog-hero p { font-size: 14px; color: var(--ink2); line-height: 1.6; }
-  .blog-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-  .blog-pill { font-size: 11px; padding: 4px 12px; border-radius: 20px; background: var(--white); color: var(--ink3); }
-  .blog-list { display: flex; flex-direction: column; gap: 12px; }
+  .blog-hero-label { font-size: 11px; font-weight: 600; color: var(--sage); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+  .blog-hero-card h2 { font-family: 'DM Serif Display', serif; font-size: 30px; margin-bottom: 12px; }
+  .blog-hero-card p { font-size: 15px; color: var(--ink2); line-height: 1.6; }
+  .blog-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .blog-pill { font-size: 12px; padding: 5px 14px; border-radius: 20px; background: var(--white); color: var(--ink3); }
+  .blog-list { display: flex; flex-direction: column; gap: 14px; }
   .blog-list-item {
-    display: flex; gap: 16px; align-items: flex-start;
-    background: var(--white); border-radius: var(--radius); padding: 20px;
-    border: 1px solid rgba(28,28,26,.06);
+    display: flex; gap: 18px; align-items: flex-start;
+    background: var(--white); border-radius: var(--radius-lg); padding: 22px;
+    border: 1px solid rgba(28,28,26,.05);
     transition: transform .2s;
   }
   .blog-list-item:hover { transform: translateX(4px); }
-  .blog-list-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--sage-mid); flex-shrink: 0; width: 40px; }
-  .blog-list-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .blog-list-num { font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--sage-mid); flex-shrink: 0; width: 40px; }
+  .blog-list-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
   .blog-list-excerpt { font-size: 13px; color: var(--ink2); line-height: 1.55; }
   .blog-list-meta { font-size: 11px; color: var(--ink3); margin-top: 6px; }
-  .blog-section-title { font-family: 'DM Serif Display', serif; font-size: 22px; margin: 40px 0 20px; }
+  .blog-section-title { font-family: 'DM Serif Display', serif; font-size: 24px; margin: 48px 0 22px; }
 
   /* FAQ PAGE */
   .faq-page { padding: 60px 5%; max-width: 720px; margin: 0 auto; }
 
   /* FORM PAGE */
   .form-page { padding: 60px 5%; max-width: 560px; margin: 0 auto; }
-  .form-page h2 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 24px; }
-  .form-alert {
-    background: #FFF8E1; border: 1px solid #FFE082; border-radius: var(--radius);
-    padding: 14px 18px; font-size: 13px; color: #856404; margin-bottom: 28px; line-height: 1.5;
-  }
+  .form-page h2 { font-family: 'DM Serif Display', serif; font-size: 30px; margin-bottom: 28px; }
   .form-group { margin-bottom: 18px; }
-  .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
   .form-group input, .form-group select, .form-group textarea {
-    width: 100%; padding: 10px 14px; border: 1px solid rgba(28,28,26,.15);
-    border-radius: var(--radius); font-size: 14px; font-family: 'DM Sans', sans-serif;
+    width: 100%; padding: 12px 16px; border: 1.5px solid rgba(28,28,26,.12);
+    border-radius: var(--radius); font-size: 15px; font-family: 'DM Sans', sans-serif;
     background: var(--white); transition: border-color .2s;
   }
   .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    outline: none; border-color: var(--sage);
+    outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(74,124,89,.1);
   }
-  .form-section-title { font-size: 14px; font-weight: 600; margin: 28px 0 16px; padding-top: 20px; border-top: 1px solid rgba(28,28,26,.08); }
-  .form-privacy { font-size: 12px; color: var(--ink3); margin-top: 16px; line-height: 1.5; }
-
-  /* MOBILE STICKY */
-  .mobile-cta {
-    display: none; position: fixed;
-    bottom: 0; left: 0; right: 0; z-index: 200;
-    background: var(--white); border-top: 1px solid rgba(28,28,26,.12);
-    padding: 12px 5%; gap: 10px;
-  }
-  .mobile-cta .btn-primary { flex: 1; justify-content: center; }
+  .form-section-title { font-size: 14px; font-weight: 600; margin: 32px 0 16px; padding-top: 24px; border-top: 1px solid rgba(28,28,26,.08); }
+  .form-privacy { font-size: 13px; color: var(--ink3); margin-top: 18px; line-height: 1.5; }
+  .form-types { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 32px; }
+  .form-type-card { background: var(--sage-light); border-radius: var(--radius-lg); padding: 20px; }
+  .form-type-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .form-type-card p { font-size: 13px; color: var(--ink2); line-height: 1.5; }
 
   /* REVEAL */
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
   /* RESPONSIVE */
   @media (max-width: 800px) {
-    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 40px; padding-bottom: 40px; gap: 32px; }
-    .approach-grid { grid-template-columns: 1fr 1fr; }
-    .spec-grid { grid-template-columns: 1fr; }
-    .mod-grid { grid-template-columns: 1fr; }
-    .steps { grid-template-columns: 1fr; }
-    .about { grid-template-columns: 1fr; gap: 36px; }
+    .announce { font-size: 12px; }
+    .hero { grid-template-columns: 1fr; min-height: auto; padding: 48px 5% 0; gap: 32px; }
+    .hero-content { padding-bottom: 0; }
+    .hero-photo-img { height: 300px; border-radius: var(--radius-xl); }
+    .hero-float { bottom: -16px; left: 12px; }
+    .vp-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .srv-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; gap: 40px; }
+    .how-inner { grid-template-columns: 1fr; gap: 40px; }
+    .how-visual { min-height: auto; }
+    .about-inner { grid-template-columns: 1fr; gap: 36px; }
     .about-card { position: static; }
+    .test-grid { grid-template-columns: 1fr; }
     .blog-cards { grid-template-columns: 1fr; }
+    .form-types { grid-template-columns: 1fr; }
     nav .nav-links { display: none; }
     .mobile-cta { display: flex; }
     body { padding-bottom: 76px; }
-    .footer-top { flex-direction: column; gap: 24px; }
+    .footer-top { flex-direction: column; gap: 28px; }
   }
   @media (min-width: 801px) { .mobile-cta { display: none !important; } }
 </style>
 </head>
 <body>
 
+<!-- ANNOUNCEMENT BAR -->
+<div class="announce" id="announce">
+  Aceitando novos pacientes &nbsp;·&nbsp; <a href="http://wa.me/5511971057112" target="_blank">Agende sua consulta</a>
+</div>
+
+<!-- NAV -->
 <nav>
-  <a class="nav-logo" onclick="showPage('home')">Dr. Albert <span>Psiquiatra · CRM-SP</span></a>
+  <a class="nav-logo" onclick="showPage('home')">Dr. Albert <small>Psiquiatra</small></a>
   <div class="nav-links">
-    <a onclick="showPage('home')">Home</a>
-    <a onclick="showPage('blog')">Blog</a>
-    <a onclick="showPage('faq-page')">Dúvidas</a>
-    <a onclick="showPage('agendamento')">Agendamento</a>
+    <div class="nav-item" onclick="showPage('home')">
+      Saiba mais
+      <div class="nav-dropdown">
+        <div class="dd-label">Como posso ajudar?</div>
+        <a class="dd-link" onclick="scrollToEl('especialidades')">Condições tratadas</a>
+        <a class="dd-link" onclick="scrollToEl('como-funciona')">Como funciona</a>
+        <a class="dd-link" onclick="scrollToEl('sobre')">Sobre o Dr. Albert</a>
+        <a class="dd-link" onclick="scrollToEl('valores')">Valores</a>
+        <div style="margin-top:14px"><div class="dd-label">Modalidades</div></div>
+        <a class="dd-link" onclick="scrollToEl('modalidades')">Presencial</a>
+        <a class="dd-link" onclick="scrollToEl('modalidades')">Telemedicina</a>
+      </div>
+    </div>
+    <a class="nav-item" onclick="showPage('blog')">Blog</a>
+    <a class="nav-item" onclick="showPage('faq-page')">Dúvidas</a>
+    <a class="nav-item" onclick="showPage('agendamento')">Agendamento</a>
     <a href="http://wa.me/5511971057112" class="btn-nav" target="_blank">Agendar consulta</a>
   </div>
 </nav>
@@ -475,213 +537,186 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-badge">Psiquiatria particular · Online em todo o Brasil</div>
+    <div class="hero-eyebrow">Psiquiatria online · Saúde mental</div>
     <h1>Cuidar da <em>saúde mental</em> começa com a decisão certa</h1>
-    <p class="hero-sub">Psiquiatra especializado em ansiedade, depressão, TDAH e transtornos do humor. Atendimento humanizado, com escuta ativa e tratamento baseado em evidências.</p>
+    <p class="hero-sub">Psiquiatra formado pela USP, especializado em ansiedade, depressão, TDAH e transtornos do humor. Atendimento humanizado e baseado em evidências.</p>
+    <div class="hero-checks">
+      <div class="hero-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Consulta inicial de 50 minutos, sem pressa</div>
+      <div class="hero-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Atendimento online em todo o Brasil</div>
+      <div class="hero-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Nota fiscal para reembolso do plano</div>
+    </div>
     <div class="hero-actions">
       <a href="http://wa.me/5511971057112" class="btn-primary" target="_blank">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.12 1.526 5.857L.057 23.882a.5.5 0 00.61.637l6.197-1.623A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.935 0-3.744-.52-5.293-1.426l-.38-.223-3.95 1.035 1.052-3.844-.248-.396A9.938 9.938 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-        Agendar consulta
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.12 1.526 5.857L.057 23.882a.5.5 0 00.61.637l6.197-1.623A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.935 0-3.744-.52-5.293-1.426l-.38-.223-3.95 1.035 1.052-3.844-.248-.396A9.938 9.938 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Agendar pelo WhatsApp
       </a>
-      <a onclick="showPage('agendamento')" class="btn-ghost" style="cursor:pointer">Conhecer o Dr. Albert</a>
-    </div>
-    <div class="hero-trust">
-      <div class="trust-item"><span class="trust-dot"></span>+8 anos de experiência</div>
-      <div class="trust-item"><span class="trust-dot"></span>CRM registrado</div>
-      <div class="trust-item"><span class="trust-dot"></span>Online e presencial</div>
-      <div class="trust-item"><span class="trust-dot"></span>NF para reembolso</div>
+      <a onclick="scrollToEl('sobre')" class="btn-ghost" style="cursor:pointer">Conhecer o Dr. Albert</a>
     </div>
   </div>
-
-  <div class="hero-card">
-    <div class="hc-header">
-      <div class="hc-avatar">AM</div>
-      <div>
-        <div class="hc-name">Dr. Albert Mojzeszowicz</div>
-        <div class="hc-title">Médico Psiquiatra · CRM/SP</div>
-      </div>
+  <div class="hero-photo">
+    <div class="hero-photo-img">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#4A7C59" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Inserir foto do Dr. Albert</span>
     </div>
-    <div class="hc-status">
-      <div class="hc-status-item"><span class="hc-dot hc-dot-green"></span>Aceitando novos pacientes</div>
-      <div class="hc-status-item"><span class="hc-dot hc-dot-blue"></span>Telemedicina disponível</div>
-      <div class="hc-status-item"><span class="hc-dot hc-dot-amber"></span>Retornos em 30 dias</div>
-    </div>
-    <div class="hc-tags">
-      <span class="hc-tag">Ansiedade</span>
-      <span class="hc-tag">Depressão</span>
-      <span class="hc-tag">TDAH</span>
-      <span class="hc-tag">Bipolaridade</span>
-      <span class="hc-tag">Insônia</span>
-      <span class="hc-tag">Burnout</span>
+    <div class="hero-float">
+      <p class="hero-float-label">Formação</p>
+      <p class="hero-float-val">Medicina — USP</p>
+      <p class="hero-float-sub">Residência HC-FMRP · Preceptoria</p>
     </div>
   </div>
 </section>
 
-<!-- ABORDAGEM -->
-<section class="approach">
-  <div class="approach-inner">
-    <span class="section-label reveal">Sobre o Dr. Albert</span>
-    <h2 class="section-title reveal">Psiquiatria humanizada, baseada em evidências</h2>
-    <p class="section-desc reveal">A psiquiatria moderna vai muito além da medicalização. O Dr. Albert acredita em uma abordagem integrativa — combinando farmacoterapia quando necessária com escuta qualificada, psicoeducação e suporte contínuo ao paciente e à família.</p>
-    <div class="approach-grid">
-      <div class="appr-card reveal">
-        <span class="appr-letter">A</span>
-        <h3>Avaliação completa</h3>
-        <p>Consulta inicial de 50 min com anamnese detalhada, histórico completo e definição do plano terapêutico.</p>
-      </div>
-      <div class="appr-card reveal">
-        <span class="appr-letter">E</span>
-        <h3>Escuta ativa</h3>
-        <p>Ambiente acolhedor, sigiloso e sem julgamento. O foco é no que importa para você.</p>
-      </div>
-      <div class="appr-card reveal">
-        <span class="appr-letter">C</span>
-        <h3>Continuidade</h3>
-        <p>Acompanhamento regular com retornos agendados e ajustes finos no tratamento ao longo do tempo.</p>
-      </div>
-      <div class="appr-card reveal">
-        <span class="appr-letter">P</span>
-        <h3>Parceria</h3>
-        <p>Trabalho integrado com psicólogos, clínicos gerais e outros especialistas quando necessário.</p>
-      </div>
+<!-- VALUE PROPS -->
+<section class="value-props">
+  <div class="vp-grid">
+    <div class="vp-item reveal">
+      <div class="vp-icon vp-icon-sage">&#x1F3AF;</div>
+      <h3>Diagnóstico rigoroso</h3>
+      <p>Avaliação psiquiátrica completa de 50 minutos na primeira consulta.</p>
+    </div>
+    <div class="vp-item reveal">
+      <div class="vp-icon vp-icon-peach">&#x1F4CB;</div>
+      <h3>Plano individualizado</h3>
+      <p>Tratamento baseado em evidências, personalizado para as suas necessidades.</p>
+    </div>
+    <div class="vp-item reveal">
+      <div class="vp-icon vp-icon-lavender">&#x1F91D;</div>
+      <h3>Acompanhamento próximo</h3>
+      <p>Retornos mensais com ajustes finos até a melhora significativa.</p>
+    </div>
+    <div class="vp-item reveal">
+      <div class="vp-icon vp-icon-sky">&#x1F4F1;</div>
+      <h3>100% online ou presencial</h3>
+      <p>Consulta por videochamada regulamentada pelo CFM, de onde você estiver.</p>
     </div>
   </div>
 </section>
 
-<!-- ESPECIALIDADES -->
-<section class="specialties" id="especialidades">
-  <span class="section-label reveal">Áreas de atuação</span>
-  <h2 class="section-title reveal">O que tratamos</h2>
-  <div class="spec-grid">
-    <div class="spec-card reveal">
-      <div class="spec-num">01</div>
-      <h3>Ansiedade</h3>
-      <p>TAG, síndrome do pânico, ansiedade social, fobias específicas, TOC.</p>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-num">02</div>
-      <h3>Depressão</h3>
-      <p>Episódios depressivos, depressão recorrente, distimia, depressão pós-parto.</p>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-num">03</div>
-      <h3>TDAH</h3>
-      <p>Diagnóstico e tratamento em adultos, diagnóstico tardio após os 30 anos.</p>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-num">04</div>
-      <h3>Transtorno bipolar</h3>
-      <p>Acompanhamento de fases maníacas, hipomaníacas e depressivas com estabilização do humor.</p>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-num">05</div>
-      <h3>Burnout e estresse</h3>
-      <p>Esgotamento profissional, estresse crônico, dificuldade de desconectar do trabalho.</p>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-num">06</div>
-      <h3>Insônia</h3>
-      <p>Dificuldade para dormir, sono fragmentado, despertar precoce, insônia associada a outros transtornos.</p>
-    </div>
-  </div>
-</section>
-
-<!-- MODALIDADES -->
-<section class="modalities">
-  <div class="mod-inner">
-    <span class="section-label reveal">Modalidades de consulta</span>
-    <h2 class="section-title reveal">Presencial ou online, você escolhe</h2>
-    <div class="mod-grid">
-      <div class="mod-card mod-card-dark reveal">
-        <span class="mod-tag">Presencial</span>
-        <h3>Consulta no consultório</h3>
-        <p>Atendimento presencial em ambiente acolhedor e reservado.</p>
-        <div class="mod-feats">
-          <div class="mod-feat">Consulta inicial: 50 min</div>
-          <div class="mod-feat">Retornos: 30 min</div>
-          <div class="mod-feat">Atendimento particular</div>
-          <div class="mod-feat">NF para reembolso</div>
-        </div>
-        <a href="http://wa.me/5511971057112" class="btn-white" target="_blank">Agendar presencial</a>
+<!-- SPECIALTIES -->
+<section class="services" id="especialidades">
+  <div class="services-inner section-center">
+    <span class="section-label reveal">Áreas de atuação</span>
+    <h2 class="section-title reveal">O que tratamos</h2>
+    <p class="section-desc reveal">O Dr. Albert trata uma ampla gama de condições de saúde mental, sempre com abordagem integrativa e personalizada.</p>
+    <div class="srv-grid">
+      <div class="srv-card srv-card-sage reveal">
+        <div class="srv-icon srv-icon-sage">&#x1F9E0;</div>
+        <h3>Ansiedade</h3>
+        <p>TAG, síndrome do pânico, ansiedade social, fobias específicas, TOC.</p>
+        <a class="srv-link" onclick="showPage('blog')">Ver mini-curso &rarr;</a>
       </div>
-      <div class="mod-card mod-card-light reveal">
-        <span class="mod-tag">Telemedicina</span>
-        <h3>Consulta online</h3>
-        <p>Para quem mora fora ou prefere o atendimento remoto. Segue todas as normas do CFM.</p>
-        <div class="mod-feats">
-          <div class="mod-feat">Qualquer lugar do Brasil</div>
-          <div class="mod-feat">Mesma qualidade da presencial</div>
-          <div class="mod-feat">Videoconferência segura</div>
-          <div class="mod-feat">Regulamentado pelo CFM</div>
-        </div>
-        <a href="http://wa.me/5511971057112" class="btn-primary" target="_blank" style="display:inline-block">Agendar online</a>
+      <div class="srv-card srv-card-peach reveal">
+        <div class="srv-icon srv-icon-peach">&#x2601;&#xFE0F;</div>
+        <h3>Depressão</h3>
+        <p>Episódios depressivos, depressão recorrente, distimia, depressão pós-parto.</p>
+        <a class="srv-link" onclick="showPage('blog')">Ler artigos &rarr;</a>
+      </div>
+      <div class="srv-card srv-card-lavender reveal">
+        <span class="srv-badge srv-badge-green">Diagnóstico tardio</span>
+        <h3>TDAH</h3>
+        <p>Diagnóstico e tratamento em adultos, diagnóstico tardio após os 30 anos.</p>
+      </div>
+      <div class="srv-card srv-card-sky reveal">
+        <div class="srv-icon srv-icon-sky">&#x26A1;</div>
+        <h3>Transtorno bipolar</h3>
+        <p>Acompanhamento de fases maníacas, hipomaníacas e depressivas com estabilização do humor.</p>
+      </div>
+      <div class="srv-card srv-card-peach reveal">
+        <div class="srv-icon srv-icon-peach">&#x1F525;</div>
+        <h3>Burnout e estresse</h3>
+        <p>Esgotamento profissional, estresse crônico, dificuldade de desconectar do trabalho.</p>
+      </div>
+      <div class="srv-card srv-card-sage reveal">
+        <div class="srv-icon srv-icon-sage">&#x1F319;</div>
+        <h3>Insônia</h3>
+        <p>Dificuldade para dormir, sono fragmentado, despertar precoce, insônia associada a outros transtornos.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DESTRÓI OBJEÇÕES -->
-<section class="objections">
-  <p class="obj-label">Respondendo antes de você perguntar</p>
-  <div class="obj-grid">
-    <div class="obj-card reveal">
-      <span class="obj-icon">💳</span>
-      <p class="obj-q">Aceita convênio?</p>
-      <p class="obj-a">Não, mas forneço nota fiscal para você solicitar <strong>reembolso ao seu plano</strong>.</p>
+<!-- STATS -->
+<section class="stats" id="valores">
+  <div class="stats-inner section-center">
+    <span class="section-label reveal">Números</span>
+    <h2 class="section-title reveal">Atendimento particular, transparente</h2>
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num">R$ 550</div>
+        <div class="stat-label">por consulta no acompanhamento mensal — o mais escolhido pelos pacientes</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num">50 min</div>
+        <div class="stat-label">de consulta inicial com avaliação completa, sem pressa</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num">+8 anos</div>
+        <div class="stat-label">de experiência em psiquiatria clínica e acadêmica</div>
+      </div>
     </div>
-    <div class="obj-card reveal">
-      <span class="obj-icon">💰</span>
-      <p class="obj-q">Quanto custa?</p>
-      <p class="obj-a">Acompanhamento mensal: <strong>R$ 550/consulta</strong>. Avaliação isolada: R$ 670. Até 3× no crédito.</p>
-    </div>
-    <div class="obj-card reveal">
-      <span class="obj-icon">💻</span>
-      <p class="obj-q">Como funciona online?</p>
-      <p class="obj-a"><strong>Google Meet</strong>, link enviado pelo WhatsApp. Receitas eletrônicas ou pelo correio.</p>
-    </div>
-    <div class="obj-card reveal">
-      <span class="obj-icon">🌍</span>
-      <p class="obj-q">Moro fora do Brasil?</p>
-      <p class="obj-a">Sim, atende. <strong>Relatório em inglês</strong> para o médico local emitir a receita.</p>
-    </div>
+    <p style="text-align:center; font-size:13px; color:var(--ink3); margin-top:32px;">Pagamento: PIX, boleto ou cartão até 3×. Nota fiscal emitida para reembolso. Avaliação isolada: R$ 670.</p>
   </div>
 </section>
 
-<!-- COMO FUNCIONA -->
+<!-- HOW IT WORKS -->
 <section class="how" id="como-funciona">
-  <span class="section-label reveal">Como funciona</span>
-  <h2 class="section-title reveal" style="margin-bottom:48px">Do primeiro contato ao início do tratamento</h2>
-  <div class="steps">
-    <div class="step reveal">
-      <p class="step-num-big">01</p>
-      <h3>Agendamento</h3>
-      <p>Entre em contato pelo WhatsApp ou formulário online. Escolhemos juntos o melhor horário para a sua consulta.</p>
+  <div class="how-inner">
+    <div class="how-visual reveal">
+      <div class="how-msg">
+        <p class="how-msg-label">Paciente</p>
+        <p class="how-msg-text">Olá, gostaria de agendar uma consulta. Tenho sentido muita ansiedade.</p>
+      </div>
+      <div class="how-msg how-msg-green">
+        <p class="how-msg-label">Secretária</p>
+        <p class="how-msg-text">Olá! Temos horário disponível esta semana. Vou enviar o link para a videochamada.</p>
+      </div>
+      <div class="how-msg">
+        <p class="how-msg-label">Após a consulta</p>
+        <p class="how-msg-text">Receita enviada com assinatura eletrônica. Retorno agendado para 30 dias.</p>
+      </div>
     </div>
-    <div class="step reveal">
-      <p class="step-num-big">02</p>
-      <h3>Consulta inicial</h3>
-      <p>Avaliação psiquiátrica completa por videochamada. Escuta ativa, diagnóstico rigoroso e sem pressa.</p>
-    </div>
-    <div class="step reveal">
-      <p class="step-num-big">03</p>
-      <h3>Tratamento contínuo</h3>
-      <p>Plano individualizado com retornos mensais e acompanhamento próximo até melhora significativa.</p>
+    <div>
+      <span class="section-label reveal">Como funciona</span>
+      <h2 class="section-title reveal">Suporte dedicado, do início ao fim</h2>
+      <div class="how-steps">
+        <div class="how-step reveal">
+          <div class="how-step-num">1</div>
+          <div>
+            <h3>Agendamento</h3>
+            <p>Entre em contato pelo WhatsApp. A secretária encontra o melhor horário para você.</p>
+          </div>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-step-num">2</div>
+          <div>
+            <h3>Consulta por vídeo</h3>
+            <p>Avaliação psiquiátrica completa via Google Meet. Escuta ativa, diagnóstico rigoroso.</p>
+          </div>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-step-num">3</div>
+          <div>
+            <h3>Receita e acompanhamento</h3>
+            <p>Receita eletrônica pelo WhatsApp. Retornos mensais com ajustes no tratamento.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- SOBRE -->
+<!-- ABOUT -->
 <section class="about" id="sobre">
-  <div class="about-content">
+  <div>
     <span class="section-label reveal">Quem é o Dr. Albert</span>
     <h2 class="section-title reveal">Formação sólida, olhar humano</h2>
     <p class="about-text reveal">Albert Mojzeszowicz é psiquiatra com residência no Hospital das Clínicas da FMRP-USP, um dos maiores centros de referência em saúde mental do Brasil. Antes da medicina, cursou Administração Pública pela FGV e trabalhou como pesquisador na McKinsey — trajetória incomum que traz uma visão integrada: clínica, analítica e profundamente humana.</p>
     <div class="credentials">
-      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Residência em Psiquiatria</strong> HC-FMRP / USP, Ribeirão Preto</span></div>
-      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Preceptor de emergência psiquiátrica</strong> Fac. São Leopoldo Mandic, Campinas</span></div>
-      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Graduação em Medicina</strong> FMRP / USP</span></div>
-      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Graduação em Administração Pública</strong> EAESP / FGV</span></div>
-      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Pesquisador</strong> McKinsey &amp; Co., São Paulo</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Residência em Psiquiatria</strong>HC-FMRP / USP, Ribeirão Preto</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Preceptor de emergência psiquiátrica</strong>Fac. São Leopoldo Mandic, Campinas</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Graduação em Medicina</strong>FMRP / USP</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Administração Pública</strong>EAESP / FGV</span></div>
+      <div class="cred reveal"><span class="cred-dot"></span><span class="cred-text"><strong>Pesquisador</strong>McKinsey &amp; Co., São Paulo</span></div>
     </div>
   </div>
   <div>
@@ -696,9 +731,37 @@
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="test-inner section-center">
+    <span class="section-label reveal">Depoimentos</span>
+    <h2 class="section-title reveal">Histórias reais, resultados reais</h2>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="test-text">"Profissional extremamente competente e atencioso. Me senti acolhida desde a primeira consulta."</p>
+        <div class="test-author">Paciente anônima</div>
+        <div class="test-meta">Acompanhamento por ansiedade</div>
+      </div>
+      <div class="test-card reveal">
+        <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="test-text">"O Dr. Albert mudou a minha relação com o tratamento psiquiátrico. Transparente, sem pressa, e realmente ouve."</p>
+        <div class="test-author">Paciente anônimo</div>
+        <div class="test-meta">Acompanhamento por TDAH</div>
+      </div>
+      <div class="test-card reveal">
+        <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="test-text">"Moro fora do Brasil e o atendimento online foi impecável. Recebi relatório em inglês para o médico local."</p>
+        <div class="test-author">Paciente anônimo</div>
+        <div class="test-meta">Telemedicina · Exterior</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- BLOG PREVIEW -->
 <section class="blog-preview">
-  <div class="blog-inner">
+  <div class="blog-inner section-center">
     <span class="section-label reveal">Conteúdo</span>
     <h2 class="section-title reveal">Mini-curso de ansiedade</h2>
     <p class="section-desc reveal">6 artigos em linguagem acessível para quem quer entender, reconhecer e buscar tratamento para a ansiedade.</p>
@@ -719,51 +782,33 @@
         <p>3 min de leitura</p>
       </div>
     </div>
-    <div style="text-align:center; margin-top: 32px;">
-      <a onclick="showPage('blog')" class="btn-ghost" style="cursor:pointer">Ver todos os artigos</a>
+    <div style="text-align:center; margin-top:40px;">
+      <a onclick="showPage('blog')" class="btn-ghost" style="cursor:pointer; background:var(--white);">Ver todos os artigos &rarr;</a>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
 <section class="faq-section" id="faq">
-  <div class="faq-inner">
+  <div class="faq-inner section-center">
     <span class="section-label reveal">Antes de agendar</span>
     <h2 class="section-title reveal">Dúvidas frequentes</h2>
-    <div class="faq-item reveal">
-      <div class="faq-q" onclick="toggleFaq(this)">Preciso de encaminhamento para consultar? <span class="toggle">+</span></div>
-      <div class="faq-a">Não. Qualquer pessoa pode agendar diretamente, sem necessidade de encaminhamento médico.</div>
+    <div style="text-align:left; margin-top:32px;">
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">Preciso de encaminhamento para consultar? <span class="toggle">+</span></div><div class="faq-a">Não. Qualquer pessoa pode agendar diretamente, sem necessidade de encaminhamento médico.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">Atende pelo plano de saúde? <span class="toggle">+</span></div><div class="faq-a">O atendimento é particular. Emitimos nota fiscal para que você solicite reembolso ao seu plano de saúde.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">As consultas são presenciais ou online? <span class="toggle">+</span></div><div class="faq-a">Ambas as modalidades estão disponíveis. A telemedicina segue todas as normas do CFM e tem a mesma qualidade da consulta presencial.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">Qual a diferença entre psiquiatra e psicólogo? <span class="toggle">+</span></div><div class="faq-a">O psiquiatra é médico e pode prescrever medicamentos. O psicólogo realiza psicoterapia. São abordagens complementares.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">Vou precisar tomar remédio? <span class="toggle">+</span></div><div class="faq-a">Não necessariamente. A decisão é tomada em conjunto, baseada na avaliação individual.</div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">Como chegam as receitas? <span class="toggle">+</span></div><div class="faq-a">Receitas comuns chegam com assinatura eletrônica pelo WhatsApp. Receitas especiais (azul e amarela) são enviadas pelo correio.</div></div>
     </div>
-    <div class="faq-item reveal">
-      <div class="faq-q" onclick="toggleFaq(this)">Atende pelo plano de saúde? <span class="toggle">+</span></div>
-      <div class="faq-a">O atendimento é particular. Emitimos nota fiscal para que você solicite reembolso ao seu plano de saúde.</div>
-    </div>
-    <div class="faq-item reveal">
-      <div class="faq-q" onclick="toggleFaq(this)">As consultas são presenciais ou online? <span class="toggle">+</span></div>
-      <div class="faq-a">Ambas as modalidades estão disponíveis. A telemedicina segue todas as normas do CFM e tem a mesma qualidade da consulta presencial.</div>
-    </div>
-    <div class="faq-item reveal">
-      <div class="faq-q" onclick="toggleFaq(this)">Qual a diferença entre psiquiatra e psicólogo? <span class="toggle">+</span></div>
-      <div class="faq-a">O psiquiatra é médico e pode prescrever medicamentos. O psicólogo realiza psicoterapia. São abordagens complementares e frequentemente trabalham em conjunto.</div>
-    </div>
-    <div class="faq-item reveal">
-      <div class="faq-q" onclick="toggleFaq(this)">Quanto tempo dura uma consulta? <span class="toggle">+</span></div>
-      <div class="faq-a">A consulta inicial dura 50 minutos. Retornos de acompanhamento duram 30 minutos.</div>
-    </div>
-    <div class="faq-item reveal">
-      <div class="faq-q" onclick="toggleFaq(this)">Vou precisar tomar remédio? <span class="toggle">+</span></div>
-      <div class="faq-a">Não necessariamente. A decisão é tomada em conjunto, baseada na avaliação individual. Muitos casos se beneficiam de psicoterapia isolada ou combinada.</div>
-    </div>
-    <div class="faq-item reveal">
-      <div class="faq-q" onclick="toggleFaq(this)">As informações da consulta são confidenciais? <span class="toggle">+</span></div>
-      <div class="faq-a">Sim, todas as informações são protegidas pelo sigilo médico e pela LGPD. Nada é compartilhado sem sua autorização expressa.</div>
+    <div style="text-align:center; margin-top:32px;">
+      <a onclick="showPage('faq-page')" class="btn-ghost" style="cursor:pointer">Ver todas as dúvidas &rarr;</a>
     </div>
   </div>
 </section>
 
 <!-- CTA FINAL -->
-<section class="cta-section">
-  <span class="section-label" style="text-align:center; display:block; margin-bottom:16px;">Próximo passo</span>
+<section class="cta-final">
   <div class="cta-box reveal">
     <h2>Pronto para <em>começar</em>?</h2>
     <p>A primeira consulta é uma avaliação completa. Sem pressa, sem julgamento — apenas um espaço seguro para você falar sobre o que está sentindo.</p>
@@ -779,7 +824,7 @@
 <!-- ====== BLOG ====== -->
 <div class="page" id="page-blog">
   <div class="blog-page">
-    <div class="blog-hero reveal">
+    <div class="blog-hero-card reveal">
       <div class="blog-hero-label">Série especial</div>
       <h2>Mini-curso de ansiedade</h2>
       <p>Ansiedade: Entender, Reconhecer e Tratar. 6 artigos em linguagem acessível escritos pelo Dr. Albert Mojzeszowicz.</p>
@@ -789,256 +834,74 @@
         <span class="blog-pill">Dr. Albert Mojzeszowicz</span>
       </div>
     </div>
-
     <div class="blog-list">
-      <div class="blog-list-item reveal">
-        <div class="blog-list-num">1</div>
-        <div>
-          <div class="blog-list-title">O que é ansiedade de verdade? Médico psiquiatra explica</div>
-          <div class="blog-list-excerpt">Ansiedade é uma resposta emocional e fisiológica antecipatória diante de ameaças percebidas, sejam reais ou imaginárias. Envolve ativação do sistema nervoso autônomo, sentimento de medo e comportamentos de evitação.</div>
-          <div class="blog-list-meta">3 min · 7 mar</div>
-        </div>
-      </div>
-      <div class="blog-list-item reveal">
-        <div class="blog-list-num">2</div>
-        <div>
-          <div class="blog-list-title">Ansiedade ou nervosismo? Como diferenciar</div>
-          <div class="blog-list-excerpt">Nervosismo é uma reação emocional pontual e proporcional a um evento específico. A ansiedade patológica é desproporcional, persistente e interfere na capacidade funcional do indivíduo.</div>
-          <div class="blog-list-meta">3 min · 8 mar</div>
-        </div>
-      </div>
-      <div class="blog-list-item reveal">
-        <div class="blog-list-num">3</div>
-        <div>
-          <div class="blog-list-title">Ansiedade generalizada: sintomas, diagnóstico e tratamento</div>
-          <div class="blog-list-excerpt">O TAG é caracterizado por preocupação excessiva e persistente sobre múltiplos aspectos da vida, acompanhada de sintomas físicos como tensão muscular e dificuldade de concentração.</div>
-          <div class="blog-list-meta">3 min · 8 mar</div>
-        </div>
-      </div>
-      <div class="blog-list-item reveal">
-        <div class="blog-list-num">4</div>
-        <div>
-          <div class="blog-list-title">Ansiedade social: mais do que timidez</div>
-          <div class="blog-list-excerpt">O transtorno de ansiedade social vai além da timidez comum. Envolve medo intenso e persistente de situações sociais onde a pessoa pode ser observada ou avaliada.</div>
-          <div class="blog-list-meta">3 min · 8 mar</div>
-        </div>
-      </div>
-      <div class="blog-list-item reveal">
-        <div class="blog-list-num">5</div>
-        <div>
-          <div class="blog-list-title">Síndrome do pânico: o que acontece no seu cérebro durante um ataque</div>
-          <div class="blog-list-excerpt">O transtorno de pânico é caracterizado por ataques recorrentes e inesperados de medo, acompanhados de sintomas físicos agudos. Após os ataques, o paciente desenvolve preocupação persistente.</div>
-          <div class="blog-list-meta">3 min · 8 mar</div>
-        </div>
-      </div>
-      <div class="blog-list-item reveal">
-        <div class="blog-list-num">6</div>
-        <div>
-          <div class="blog-list-title">Remédio para ansiedade: quando é necessário e como funciona</div>
-          <div class="blog-list-excerpt">A farmacoterapia não é a única opção. O tratamento ideal depende da gravidade, do subtipo de ansiedade e das preferências do paciente.</div>
-          <div class="blog-list-meta">4 min · 8 mar</div>
-        </div>
-      </div>
+      <div class="blog-list-item reveal"><div class="blog-list-num">1</div><div><div class="blog-list-title">O que é ansiedade de verdade? Médico psiquiatra explica</div><div class="blog-list-excerpt">Ansiedade é uma resposta emocional e fisiológica antecipatória diante de ameaças percebidas, sejam reais ou imaginárias.</div><div class="blog-list-meta">3 min · 7 mar</div></div></div>
+      <div class="blog-list-item reveal"><div class="blog-list-num">2</div><div><div class="blog-list-title">Ansiedade ou nervosismo? Como diferenciar</div><div class="blog-list-excerpt">Nervosismo é uma reação emocional pontual e proporcional. A ansiedade patológica é desproporcional e persistente.</div><div class="blog-list-meta">3 min · 8 mar</div></div></div>
+      <div class="blog-list-item reveal"><div class="blog-list-num">3</div><div><div class="blog-list-title">Ansiedade generalizada: sintomas, diagnóstico e tratamento</div><div class="blog-list-excerpt">O TAG é caracterizado por preocupação excessiva sobre múltiplos aspectos da vida.</div><div class="blog-list-meta">3 min · 8 mar</div></div></div>
+      <div class="blog-list-item reveal"><div class="blog-list-num">4</div><div><div class="blog-list-title">Ansiedade social: mais do que timidez</div><div class="blog-list-excerpt">Envolve medo intenso e persistente de situações sociais onde a pessoa pode ser observada.</div><div class="blog-list-meta">3 min · 8 mar</div></div></div>
+      <div class="blog-list-item reveal"><div class="blog-list-num">5</div><div><div class="blog-list-title">Síndrome do pânico: o que acontece no seu cérebro durante um ataque</div><div class="blog-list-excerpt">Ataques recorrentes e inesperados de medo, acompanhados de sintomas físicos agudos.</div><div class="blog-list-meta">3 min · 8 mar</div></div></div>
+      <div class="blog-list-item reveal"><div class="blog-list-num">6</div><div><div class="blog-list-title">Remédio para ansiedade: quando é necessário e como funciona</div><div class="blog-list-excerpt">A farmacoterapia não é a única opção. O tratamento ideal depende da gravidade e preferências.</div><div class="blog-list-meta">4 min · 8 mar</div></div></div>
     </div>
-
     <h3 class="blog-section-title">Depressão</h3>
     <div class="blog-list">
-      <div class="blog-list-item reveal">
-        <div class="blog-list-num">1</div>
-        <div>
-          <div class="blog-list-title">Depressão: por que tristeza e depressão não são a mesma coisa</div>
-          <div class="blog-list-excerpt">Tristeza é uma emoção normal e transitória. Depressão é um transtorno mental que altera humor, cognição, comportamento e funções corporais de forma persistente.</div>
-          <div class="blog-list-meta">5 min · 5 dias atrás</div>
-        </div>
-      </div>
-      <div class="blog-list-item reveal">
-        <div class="blog-list-num">2</div>
-        <div>
-          <div class="blog-list-title">Antidepressivos: mitos, verdades e o que esperar do tratamento</div>
-          <div class="blog-list-excerpt">Antidepressivos não causam dependência, não mudam a personalidade e não funcionam instantaneamente. Entenda o que esperar de um tratamento medicamentoso.</div>
-          <div class="blog-list-meta">4 min · 6 dias atrás</div>
-        </div>
-      </div>
+      <div class="blog-list-item reveal"><div class="blog-list-num">1</div><div><div class="blog-list-title">Depressão: por que tristeza e depressão não são a mesma coisa</div><div class="blog-list-excerpt">Tristeza é transitória. Depressão altera humor, cognição e funções corporais de forma persistente.</div><div class="blog-list-meta">5 min · 5 dias atrás</div></div></div>
+      <div class="blog-list-item reveal"><div class="blog-list-num">2</div><div><div class="blog-list-title">Antidepressivos: mitos, verdades e o que esperar do tratamento</div><div class="blog-list-excerpt">Não causam dependência, não mudam personalidade e não funcionam instantaneamente.</div><div class="blog-list-meta">4 min · 6 dias atrás</div></div></div>
     </div>
   </div>
-</div><!-- /page-blog -->
+</div>
 
 <!-- ====== FAQ PAGE ====== -->
 <div class="page" id="page-faq-page">
   <div class="faq-page">
     <span class="section-label">Dúvidas</span>
     <h2 class="section-title" style="margin-bottom:40px">Perguntas frequentes</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Preciso de encaminhamento para consultar? <span class="toggle">+</span></div>
-      <div class="faq-a">Não. Qualquer pessoa pode agendar diretamente, sem necessidade de encaminhamento médico.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Atende pelo plano de saúde? <span class="toggle">+</span></div>
-      <div class="faq-a">O atendimento é particular. Emitimos nota fiscal para que você solicite reembolso ao seu plano de saúde.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">As consultas são presenciais ou online? <span class="toggle">+</span></div>
-      <div class="faq-a">Ambas as modalidades estão disponíveis. A telemedicina segue todas as normas do CFM e tem a mesma qualidade da consulta presencial.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Qual a diferença entre psiquiatra e psicólogo? <span class="toggle">+</span></div>
-      <div class="faq-a">O psiquiatra é médico e pode prescrever medicamentos. O psicólogo realiza psicoterapia. São abordagens complementares e frequentemente trabalham em conjunto.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Quanto tempo dura uma consulta? <span class="toggle">+</span></div>
-      <div class="faq-a">A consulta inicial dura 50 minutos. Retornos de acompanhamento duram 30 minutos.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Vou precisar tomar remédio? <span class="toggle">+</span></div>
-      <div class="faq-a">Não necessariamente. A decisão é tomada em conjunto, baseada na avaliação individual. Muitos casos se beneficiam de psicoterapia isolada ou combinada.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">As informações da consulta são confidenciais? <span class="toggle">+</span></div>
-      <div class="faq-a">Sim, todas as informações são protegidas pelo sigilo médico e pela LGPD. Nada é compartilhado sem sua autorização expressa.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Quanto tempo dura o tratamento? <span class="toggle">+</span></div>
-      <div class="faq-a">A maioria dos pacientes apresenta melhora significativa após quatro a oito meses de acompanhamento regular. Muitos casos demandam cuidado a longo prazo.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Como funciona o pagamento? <span class="toggle">+</span></div>
-      <div class="faq-a">PIX, boleto bancário ou cartão de crédito em até 3×. Nota fiscal emitida ao final para reembolso junto ao plano de saúde.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">O que acontece se eu faltar? <span class="toggle">+</span></div>
-      <div class="faq-a">Se conseguir avisar até 1 hora antes, remarcamos sem custo. Caso contrário, é cobrada metade do valor da consulta.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Como chegam as receitas? <span class="toggle">+</span></div>
-      <div class="faq-a">Receitas comuns chegam com assinatura eletrônica pelo WhatsApp. Receitas especiais (azul e amarela) são enviadas pelo correio ao seu endereço.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Moro fora do Brasil. Posso me consultar? <span class="toggle">+</span></div>
-      <div class="faq-a">Sim. O Dr. Albert emite relatório em inglês para que o médico local possa emitir a receita no seu país.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Preciso de encaminhamento? <span class="toggle">+</span></div><div class="faq-a">Não. Qualquer pessoa pode agendar diretamente.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Atende pelo plano de saúde? <span class="toggle">+</span></div><div class="faq-a">O atendimento é particular. Emitimos nota fiscal para reembolso.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">As consultas são presenciais ou online? <span class="toggle">+</span></div><div class="faq-a">Ambas disponíveis. Telemedicina regulamentada pelo CFM.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Diferença entre psiquiatra e psicólogo? <span class="toggle">+</span></div><div class="faq-a">Psiquiatra prescreve medicamentos. Psicólogo faz psicoterapia. Complementares.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Quanto tempo dura uma consulta? <span class="toggle">+</span></div><div class="faq-a">Inicial: 50 minutos. Retornos: 30 minutos.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Vou precisar tomar remédio? <span class="toggle">+</span></div><div class="faq-a">Não necessariamente. Decisão baseada na avaliação individual.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Informações são confidenciais? <span class="toggle">+</span></div><div class="faq-a">Sim. Protegidas pelo sigilo médico e LGPD.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Quanto tempo dura o tratamento? <span class="toggle">+</span></div><div class="faq-a">Melhora significativa em 4-8 meses. Muitos casos demandam cuidado a longo prazo.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Como funciona o pagamento? <span class="toggle">+</span></div><div class="faq-a">PIX, boleto ou cartão até 3×. NF emitida para reembolso.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">O que acontece se eu faltar? <span class="toggle">+</span></div><div class="faq-a">Aviso com 1h+: remarcação gratuita. Sem aviso: metade do valor.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Como chegam as receitas? <span class="toggle">+</span></div><div class="faq-a">Receitas comuns: assinatura eletrônica via WhatsApp. Especiais: correio.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Moro fora do Brasil. Posso me consultar? <span class="toggle">+</span></div><div class="faq-a">Sim. Relatório em inglês para o médico local emitir receita.</div></div>
   </div>
-</div><!-- /page-faq-page -->
+</div>
 
 <!-- ====== AGENDAMENTO ====== -->
 <div class="page" id="page-agendamento">
   <div class="form-page">
     <span class="section-label">Agendamento</span>
     <h2>Agendar consulta</h2>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:28px;">
-      <div style="background:var(--sage-light); border-radius:var(--radius); padding:16px;">
-        <div style="font-size:13px; font-weight:600; margin-bottom:4px;">Inicial — 50 min</div>
-        <div style="font-size:12px; color:var(--ink2); line-height:1.5;">Avaliação clínica completa, anamnese, plano terapêutico.</div>
-      </div>
-      <div style="background:var(--bg); border-radius:var(--radius); padding:16px;">
-        <div style="font-size:13px; font-weight:600; margin-bottom:4px;">Retorno — 30 min</div>
-        <div style="font-size:12px; color:var(--ink2); line-height:1.5;">Acompanhamento, ajuste de medicação, revisão de metas.</div>
-      </div>
+    <div class="form-types">
+      <div class="form-type-card"><h4>Inicial — 50 min</h4><p>Avaliação clínica completa, anamnese, plano terapêutico.</p></div>
+      <div class="form-type-card"><h4>Retorno — 30 min</h4><p>Acompanhamento, ajuste de medicação, revisão de metas.</p></div>
     </div>
-
-    <div class="form-group">
-      <label>Tipo de consulta</label>
-      <select>
-        <option value="">Selecione...</option>
-        <option>Inicial — Presencial</option>
-        <option>Inicial — Telemedicina</option>
-        <option>Retorno — Presencial</option>
-        <option>Retorno — Telemedicina</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Nome completo</label>
-      <input type="text" placeholder="Como consta no documento">
-    </div>
-    <div class="form-group">
-      <label>E-mail</label>
-      <input type="email" placeholder="seu@email.com">
-    </div>
-    <div class="form-group">
-      <label>WhatsApp</label>
-      <input type="tel" placeholder="(00) 00000-0000">
-    </div>
-
+    <div class="form-group"><label>Tipo de consulta</label><select><option value="">Selecione...</option><option>Inicial — Presencial</option><option>Inicial — Telemedicina</option><option>Retorno — Presencial</option><option>Retorno — Telemedicina</option></select></div>
+    <div class="form-group"><label>Nome completo</label><input type="text" placeholder="Como consta no documento"></div>
+    <div class="form-group"><label>E-mail</label><input type="email" placeholder="seu@email.com"></div>
+    <div class="form-group"><label>WhatsApp</label><input type="tel" placeholder="(00) 00000-0000"></div>
     <div class="form-section-title">Contexto clínico (opcional)</div>
-    <div class="form-group">
-      <label>Motivo principal da consulta</label>
-      <select>
-        <option value="">Selecione...</option>
-        <option>Ansiedade</option>
-        <option>Depressão</option>
-        <option>TDAH</option>
-        <option>Transtorno bipolar</option>
-        <option>Insônia</option>
-        <option>Burnout</option>
-        <option>Outro</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Acompanhamento psiquiátrico anterior?</label>
-      <select>
-        <option value="">Selecione...</option>
-        <option>Sim, em acompanhamento</option>
-        <option>Sim, mas parei</option>
-        <option>Nunca fiz</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Informações adicionais relevantes</label>
-      <textarea rows="3" placeholder="Algo que considere importante para a primeira consulta..."></textarea>
-    </div>
-    <div class="form-group">
-      <label>Como nos encontrou?</label>
-      <select>
-        <option value="">Selecione...</option>
-        <option>Indicação médica</option>
-        <option>Indicação de paciente</option>
-        <option>Instagram</option>
-        <option>Google</option>
-        <option>LinkedIn</option>
-        <option>Outro</option>
-      </select>
-    </div>
-
-    <a href="http://wa.me/5511971057112" class="btn-primary" target="_blank" style="width:100%; justify-content:center; margin-top:8px;">Solicitar agendamento</a>
+    <div class="form-group"><label>Motivo principal</label><select><option value="">Selecione...</option><option>Ansiedade</option><option>Depressão</option><option>TDAH</option><option>Transtorno bipolar</option><option>Insônia</option><option>Burnout</option><option>Outro</option></select></div>
+    <div class="form-group"><label>Acompanhamento psiquiátrico anterior?</label><select><option value="">Selecione...</option><option>Sim, em acompanhamento</option><option>Sim, mas parei</option><option>Nunca fiz</option></select></div>
+    <div class="form-group"><label>Informações adicionais</label><textarea rows="3" placeholder="Algo relevante para a primeira consulta..."></textarea></div>
+    <div class="form-group"><label>Como nos encontrou?</label><select><option value="">Selecione...</option><option>Indicação médica</option><option>Indicação de paciente</option><option>Instagram</option><option>Google</option><option>LinkedIn</option><option>Outro</option></select></div>
+    <a href="http://wa.me/5511971057112" class="btn-primary" target="_blank" style="width:100%; justify-content:center; margin-top:8px; font-size:16px;">Solicitar agendamento</a>
     <p class="form-privacy">Seus dados são protegidos pela LGPD e não serão compartilhados com terceiros.</p>
   </div>
-</div><!-- /page-agendamento -->
+</div>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
-    <div>
-      <div class="footer-logo">Dr. Albert Mojzeszowicz</div>
-      <div class="footer-logo-sub">Médico Psiquiatra</div>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Site</div>
-      <div class="footer-links">
-        <a href="#" onclick="showPage('home')">Home</a>
-        <a href="#" onclick="showPage('blog')">Blog</a>
-        <a href="#" onclick="showPage('faq-page')">Dúvidas</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Pacientes</div>
-      <div class="footer-links">
-        <a href="#" onclick="showPage('agendamento')">Agendamento</a>
-        <a href="http://wa.me/5511971057112" target="_blank">WhatsApp</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Redes</div>
-      <div class="footer-links">
-        <a href="https://www.instagram.com/dr.albertpsiquiatra/" target="_blank">Instagram</a>
-        <a href="https://www.tiktok.com/@dr.albertpsiquiatra" target="_blank">TikTok</a>
-        <a href="https://www.linkedin.com/in/albert-mojzeszowicz-67bbb76/" target="_blank">LinkedIn</a>
-      </div>
-    </div>
+    <div><div class="footer-logo">Dr. Albert Mojzeszowicz</div><div class="footer-logo-sub">Médico Psiquiatra</div></div>
+    <div class="footer-col"><div class="footer-col-title">Site</div><div class="footer-links"><a href="#" onclick="showPage('home')">Home</a><a href="#" onclick="showPage('blog')">Blog</a><a href="#" onclick="showPage('faq-page')">Dúvidas</a></div></div>
+    <div class="footer-col"><div class="footer-col-title">Pacientes</div><div class="footer-links"><a href="#" onclick="showPage('agendamento')">Agendamento</a><a href="http://wa.me/5511971057112" target="_blank">WhatsApp</a></div></div>
+    <div class="footer-col"><div class="footer-col-title">Redes</div><div class="footer-links"><a href="https://www.instagram.com/dr.albertpsiquiatra/" target="_blank">Instagram</a><a href="https://www.tiktok.com/@dr.albertpsiquiatra" target="_blank">TikTok</a><a href="https://www.linkedin.com/in/albert-mojzeszowicz-67bbb76/" target="_blank">LinkedIn</a></div></div>
   </div>
-  <div class="footer-bottom">
-    <span>&copy; 2025 Dr. Albert Mojzeszowicz &middot; Todos os direitos reservados</span>
-    <span>CRM/SP 000000</span>
-  </div>
+  <div class="footer-bottom"><span>&copy; 2025 Dr. Albert Mojzeszowicz &middot; Todos os direitos reservados</span><span>CRM/SP 000000</span></div>
 </footer>
 
 <!-- MOBILE STICKY -->
@@ -1047,45 +910,28 @@
 </div>
 
 <script>
-  // Page navigation
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const page = document.getElementById('page-' + id);
-    if (page) {
-      page.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      // Re-init reveals for the new page
-      setTimeout(initReveals, 100);
-    }
+    if (page) { page.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(initReveals, 100); }
   }
-
-  // Reveal animations
+  function scrollToEl(id) {
+    showPage('home');
+    setTimeout(() => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 200);
+  }
   function initReveals() {
     const reveals = document.querySelectorAll('.reveal:not(.visible)');
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 55);
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.08 });
+      entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 50); obs.unobserve(e.target); } });
+    }, { threshold: 0.06 });
     reveals.forEach(r => obs.observe(r));
   }
   initReveals();
-
-  // FAQ
   function toggleFaq(el) {
     const item = el.closest('.faq-item');
     const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => {
-      i.classList.remove('open');
-      i.querySelector('.toggle').textContent = '+';
-    });
-    if (!isOpen) {
-      item.classList.add('open');
-      el.querySelector('.toggle').textContent = '\u00d7';
-    }
+    document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.toggle').textContent = '+'; });
+    if (!isOpen) { item.classList.add('open'); el.querySelector('.toggle').textContent = '\u00d7'; }
   }
 </script>
 </body>
