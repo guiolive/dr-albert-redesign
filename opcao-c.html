@@ -174,7 +174,7 @@ body { font-family: var(--font); color: var(--gray-900); background: #fff; }
 .pub-nav-links { display: flex; gap: 4px; align-items: center; }
 .pub-nav-links a { color: rgba(255,255,255,0.65); font-size: 12px; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; padding: 7px 14px; border-radius: 6px; transition: all 0.15s; }
 .pub-nav-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
-.nav-cta-btn { background: var(--gold) !important; color: var(--navy) !important; font-weight: 600 !important; }
+.nav-cta-btn { background: var(--gold) !important; color: #fff !important; font-weight: 600 !important; border-radius: 6px; padding: 8px 18px !important; }
 .nav-cta-btn:hover { opacity: 0.88; }
 .nav-cta-active { opacity: 0.75 !important; cursor: default !important; }
 
@@ -357,6 +357,47 @@ body { font-family: var(--font); color: var(--gray-900); background: #fff; }
 .sp-link-arrow{font-size:14px;color:var(--gray-400);}
 .sp-cta{display:block;background:var(--gold);color:var(--navy);border:none;border-radius:var(--radius);padding:14px;font-size:15px;font-weight:600;cursor:pointer;text-align:center;width:100%;transition:opacity .2s;text-decoration:none;margin-top:8px;}
 .sp-cta:hover{opacity:.88;}
+
+/* FAQ */
+.faq-section { background: var(--gray-50); padding: 5rem 0; }
+.faq-container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+.faq-header { text-align: center; margin-bottom: 3rem; }
+.faq-header h2 { font-family: 'DM Serif Display', Georgia, serif; font-size: 32px; color: var(--navy); margin-bottom: 8px; }
+.faq-header p { font-size: 15px; color: var(--gray-600); }
+.faq-item {
+  background: var(--white); border: 1px solid rgba(0,0,0,.06);
+  border-radius: var(--radius-lg); margin-bottom: 10px;
+  overflow: hidden; transition: box-shadow .2s; cursor: pointer;
+}
+.faq-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px; gap: 16px;
+  font-size: 15px; font-weight: 500; color: var(--gray-900);
+  user-select: none;
+}
+.faq-toggle {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--gray-400); flex-shrink: 0;
+  transition: all .25s;
+}
+.faq-item.open .faq-toggle {
+  background: var(--navy); border-color: var(--navy); color: #fff;
+  transform: rotate(45deg);
+}
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease;
+}
+.faq-a-inner {
+  padding: 0 24px 20px;
+  font-size: 14px; color: var(--gray-600); line-height: 1.7;
+  border-top: 1px solid rgba(0,0,0,.05);
+  padding-top: 16px;
+}
+.faq-item.open .faq-a { max-height: 250px; }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
@@ -810,19 +851,75 @@ body { font-family: var(--font); color: var(--gray-900); background: #fff; }
         <a class="nav-cta-btn" onclick="showPubPage('espera')">Agendar consulta</a>
       </div>
     </nav>
-    <div class="pub-content" style="max-width:700px;margin:0 auto;padding:2rem;">
-      <h2 style="font-size:22px;font-weight:500;margin-bottom:1.5rem;">Dúvidas frequentes</h2>
-      <div class="faq-item" onclick="alert('Não. Qualquer pessoa pode agendar uma consulta diretamente, sem necessidade de encaminhamento médico.')"><div class="faq-q">Preciso de encaminhamento para consultar? <span>+</span></div></div>
-      <div class="faq-item" onclick="alert('O atendimento é particular. Fornecemos recibo para reembolso, caso seu plano cubra psiquiatria.')"><div class="faq-q">Atende pelo plano de saúde? <span>+</span></div></div>
-      <div class="faq-item" onclick="alert('Ambas as modalidades estão disponíveis. A telemedicina segue todas as normas do CFM.')"><div class="faq-q">As consultas são presenciais ou online? <span>+</span></div></div>
-      <div class="faq-item" onclick="alert('O psiquiatra é médico e pode prescrever medicamentos. O psicólogo realiza psicoterapia. Os tratamentos são complementares.')"><div class="faq-q">Qual a diferença entre psiquiatra e psicólogo? <span>+</span></div></div>
-      <div class="faq-item" onclick="alert('A consulta inicial dura 50 minutos. Os retornos têm duração de 30 minutos.')"><div class="faq-q">Quanto tempo dura uma consulta? <span>+</span></div></div>
-      <div class="faq-item" onclick="alert('Não necessariamente. A decisão sobre medicação é sempre individual, baseada em avaliação clínica detalhada.')"><div class="faq-q">Vou precisar tomar remédio? <span>+</span></div></div>
-      <div class="faq-item" onclick="alert('A consulta é confidencial. As informações são protegidas pelo sigilo médico e pela LGPD.')"><div class="faq-q">As informações da consulta são confidenciais? <span>+</span></div></div>
-    </div>
+    <section class="faq-section">
+      <div class="faq-container">
+        <div class="faq-header">
+          <div class="section-label-gold">Antes de agendar</div>
+          <h2>Dúvidas frequentes</h2>
+          <p>As perguntas mais comuns sobre o atendimento do Dr. Albert.</p>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Preciso de encaminhamento para consultar? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Não. Qualquer pessoa pode agendar uma consulta diretamente, sem necessidade de encaminhamento médico.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Atende pelo plano de saúde? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">O atendimento é particular. Fornecemos nota fiscal para reembolso, caso seu plano cubra psiquiatria.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">As consultas são presenciais ou online? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Ambas as modalidades estão disponíveis. A telemedicina segue todas as normas do CFM e tem a mesma qualidade da consulta presencial.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Qual a diferença entre psiquiatra e psicólogo? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">O psiquiatra é médico e pode prescrever medicamentos. O psicólogo realiza psicoterapia. São abordagens complementares que frequentemente trabalham em conjunto.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Quanto tempo dura uma consulta? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">A consulta inicial dura 50 minutos. Os retornos de acompanhamento duram 30 minutos.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Vou precisar tomar remédio? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Não necessariamente. A decisão sobre medicação é sempre individual, tomada em conjunto com o paciente, baseada em avaliação clínica detalhada.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">As informações da consulta são confidenciais? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Sim. Todas as informações são protegidas pelo sigilo médico e pela LGPD. Nada é compartilhado sem sua autorização expressa.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Como chegam as receitas? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Receitas comuns chegam com assinatura eletrônica pelo WhatsApp. Receitas especiais (azul e amarela) são enviadas pelo correio ao seu endereço.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Quanto tempo dura o tratamento? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">A maioria dos pacientes apresenta melhora significativa após 4 a 8 meses de acompanhamento regular. Muitos casos demandam cuidado a longo prazo.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">O que acontece se eu faltar? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Se avisar com pelo menos 1 hora de antecedência, remarcamos sem custo. Caso contrário, é cobrada metade do valor da consulta.</div></div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Moro fora do Brasil. Posso me consultar? <span class="faq-toggle">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Sim. O Dr. Albert emite relatório em inglês para que o médico local possa emitir a receita no seu país.</div></div>
+        </div>
+      </div>
+    </section>
   </div>
 
 <script>
+// FAQ toggle
+function toggleFaq(item) {
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-toggle').textContent = '+';
+  });
+  if (!wasOpen) {
+    item.classList.add('open');
+    item.querySelector('.faq-toggle').textContent = '\u00d7';
+  }
+}
+
 // PUB PAGES (new landing)
 function showPubPage(id) {
   document.querySelectorAll('.pub-page').forEach(p => p.classList.remove('active-pub'));
