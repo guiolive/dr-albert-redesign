@@ -475,6 +475,20 @@
   .form-type-card { background: var(--sage-light); border-radius: var(--radius-lg); padding: 20px; }
   .form-type-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
   .form-type-card p { font-size: 13px; color: var(--ink2); line-height: 1.5; }
+  .next-slot {
+    background: var(--sage); color: #fff; border-radius: var(--radius-lg);
+    padding: 20px 24px; margin-bottom: 32px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .next-slot-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .next-slot-label { font-size: 12px; opacity: .7; margin-bottom: 2px; }
+  .next-slot-date { font-size: 17px; font-weight: 600; }
+  .next-slot-sub { font-size: 12px; opacity: .65; margin-top: 2px; }
 
   /* REVEAL */
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
@@ -880,6 +894,14 @@
   <div class="form-page">
     <span class="section-label">Agendamento</span>
     <h2>Agendar consulta</h2>
+    <div class="next-slot" id="next-slot">
+      <div class="next-slot-icon">&#x1F4C5;</div>
+      <div>
+        <div class="next-slot-label">Próximo horário disponível</div>
+        <div class="next-slot-date" id="next-slot-date"></div>
+        <div class="next-slot-sub">Horários sujeitos a confirmação pela secretária</div>
+      </div>
+    </div>
     <div class="form-types">
       <div class="form-type-card"><h4>Inicial — 50 min</h4><p>Avaliação clínica completa, anamnese, plano terapêutico.</p></div>
       <div class="form-type-card"><h4>Retorno — 30 min</h4><p>Acompanhamento, ajuste de medicação, revisão de metas.</p></div>
@@ -932,6 +954,20 @@
     reveals.forEach(r => obs.observe(r));
   }
   initReveals();
+  // Next available slot — 2 business days from now
+  (function() {
+    const d = new Date();
+    let added = 0;
+    while (added < 2) {
+      d.setDate(d.getDate() + 1);
+      if (d.getDay() !== 0 && d.getDay() !== 6) added++;
+    }
+    const dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+    const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    const el = document.getElementById('next-slot-date');
+    if (el) el.textContent = dias[d.getDay()] + ', ' + d.getDate() + ' de ' + meses[d.getMonth()];
+  })();
+
   function toggleFaq(el) {
     const item = el.closest('.faq-item');
     const isOpen = item.classList.contains('open');
